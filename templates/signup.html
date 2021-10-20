@@ -3,13 +3,13 @@
   rel="stylesheet"
   href="{{ url_for('static', filename='css/login.css') }}"
 />
-<title>Login</title>
+<title>Sign Up</title>
 {% endblock %} {% block body %}
 <div class="form-container">
-  <h1 class="form-header">CSE 312 Project</h1>
+  <h1 class="form-header">CSE 312 Project Sign Up</h1>
 
   <div class="form">
-    <form action="/login" method="POST">
+    <form action="/signup" method="POST">
       <span>
         <label for="username-input">Username:</label>
         <input
@@ -28,12 +28,17 @@
           placeholder="Password"
         />
       </span>
-      <input type="submit" name="login" id="login-input" value="Login" />
+      <span>
+        <label for="password-input">Confirm Password:</label>
+        <input
+          type="password"
+          name="confirm-password"
+          id="confirm-password-input"
+          placeholder="Password"
+        />
+      </span>
+      <input type="submit" name="signup" id="signup-input" value="Signup" />
     </form>
-    <div class="navigate-signup">
-      <sub> New User ? Click below to Signup </sub>
-      <button>Signup</button>
-    </div>
   </div>
 </div>
 {% endblock %}

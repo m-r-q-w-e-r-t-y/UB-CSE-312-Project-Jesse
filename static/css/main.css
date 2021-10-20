@@ -17,8 +17,16 @@ body {
   border: 2px solid grey;
 }
 
-.form input {
+.form span {
   display: block;
   margin: 0 auto;
   margin-top: 5px;
+  text-align: center;
+}
+
+#login-input,
+#signup-input {
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
 }
