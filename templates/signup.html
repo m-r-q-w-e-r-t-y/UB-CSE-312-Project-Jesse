@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/login.css') }}"
+/>
+<title>Sign Up</title>
+{% endblock %} {% block body %}
+<div class="form-container">
+  <h1 class="form-header">CSE 312 Project Sign Up</h1>
+
+  <div class="form">
+    <form action="/signup" method="POST">
+      <span>
+        <label for="username-input">Username:</label>
+        <input
+          type="text"
+          name="username"
+          id="username-input"
+          placeholder="Username"
+        />
+      </span>
+      <span>
+        <label for="password-input">Password:</label>
+        <input
+          type="password"
+          name="password"
+          id="password-input"
+          placeholder="Password"
+        />
+      </span>
+      <span>
+        <label for="password-input">Confirm Password:</label>
+        <input
+          type="password"
+          name="confirm-password"
+          id="confirm-password-input"
+          placeholder="Password"
+        />
+      </span>
+      <input type="submit" name="signup" id="signup-input" value="Signup" />
+    </form>
+  </div>
+</div>
+{% endblock %}
