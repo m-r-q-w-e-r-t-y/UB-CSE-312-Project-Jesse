@@ -4,6 +4,20 @@
   href="{{ url_for('static', filename='css/login.css') }}"
 />
 <title>Sign Up</title>
+<script>
+  function formValidate() {
+    if (
+      document.getElementById("password-input").value ===
+      document.getElementById("confirm-password-input").value
+    ) {
+      document.getElementById("signup-input").disabled = false;
+    } else {
+      document.getElementById("signup-input").disabled = true;
+      document.getElementById("error-message").innerHTML =
+        "Passwords do not match";
+    }
+  }
+</script>
 {% endblock %} {% block body %}
 <div class="form-container">
   <h1 class="form-header">Sign Up</h1>
@@ -17,6 +31,8 @@
           name="username"
           id="username-input"
           placeholder="Username"
+          onchange="formValidate()"
+          required
         />
       </span>
       <span>
@@ -26,19 +42,24 @@
           name="password"
           id="password-input"
           placeholder="Password"
+          onchange="formValidate()"
+          required
         />
       </span>
       <span>
-        <label for="password-input">Confirm Password:</label>
+        <label for="confirm-password-input">Confirm Password:</label>
         <input
           type="password"
           name="confirm-password"
           id="confirm-password-input"
           placeholder="Confirm Password"
+          onchange="formValidate()"
+          required
         />
       </span>
       <input type="submit" name="signup" id="signup-input" value="Signup" />
     </form>
+    <span class="error-message" id="error-message" style="color: red"></span>
     <div class="navigate-other-form">
       <sub> Already have an account ? Click below to Login </sub>
       <button>
