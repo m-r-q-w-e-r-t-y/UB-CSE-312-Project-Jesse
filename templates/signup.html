@@ -6,7 +6,7 @@
 <title>Sign Up</title>
 {% endblock %} {% block body %}
 <div class="form-container">
-  <h1 class="form-header">CSE 312 Project Sign Up</h1>
+  <h1 class="form-header">Sign Up</h1>
 
   <div class="form">
     <form action="/signup" method="POST">
@@ -34,11 +34,17 @@
           type="password"
           name="confirm-password"
           id="confirm-password-input"
-          placeholder="Password"
+          placeholder="Confirm Password"
         />
       </span>
       <input type="submit" name="signup" id="signup-input" value="Signup" />
     </form>
+    <div class="navigate-other-form">
+      <sub> Already have an account ? Click below to Login </sub>
+      <button>
+        <a href="{{ url_for('login') }}">Login</a>
+      </button>
+    </div>
   </div>
 </div>
 {% endblock %}

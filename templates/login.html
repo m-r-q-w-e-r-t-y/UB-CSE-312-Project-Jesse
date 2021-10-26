@@ -6,7 +6,7 @@
 <title>Login</title>
 {% endblock %} {% block body %}
 <div class="form-container">
-  <h1 class="form-header">CSE 312 Project</h1>
+  <h1 class="form-header">Login</h1>
 
   <div class="form">
     <form action="/login" method="POST">
@@ -30,9 +30,11 @@
       </span>
       <input type="submit" name="login" id="login-input" value="Login" />
     </form>
-    <div class="navigate-signup">
+    <div class="navigate-other-form">
       <sub> New User ? Click below to Signup </sub>
-      <button>Signup</button>
+      <button>
+        <a href="{{ url_for('signup') }}">Signup</a>
+      </button>
     </div>
   </div>
 </div>
