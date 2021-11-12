@@ -14,5 +14,9 @@ def login():
 def signup():
     return render_template('signup.html')
 
+@app.route("/lobby",methods=['GET'])
+def lobby():
+    return render_template('lobby.html')
+
 if __name__ == "__main__":
     app.run(debug=True)

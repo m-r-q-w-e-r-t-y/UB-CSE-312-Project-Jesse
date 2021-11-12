@@ -1,0 +1,87 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/lobby.css') }}"
+/>
+<title>Game Lobby</title>
+{% endblock %} {% block body %}
+<div class="form-container">
+  <h1 class="form-header">CSE 312 Project</h1>
+
+  <div class="game-container">
+    <div id="TicTacToe" class="game-card">
+    <div class="game-card-inner">
+      <div class="game-card-front red">
+        <h1 class="center-gameCard-text">Tic Tac Toe</h1>
+      </div>
+      <div class="game-card-back pasty-red">
+        <h2>Tic Tac Toe</h2>
+        <p><strong>How to play:</strong>
+          The game is played on a grid that's 3 squares by 3 squares.
+          You are <span style="color:blue">X</span>, your opponent is <span style="color:green">O</span>, or vice versa.
+          Players take turns putting their marks in empty squares.
+          The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.
+          When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.</p>
+
+        <p><strong>Requirement:</strong> Exactly 2 Players are required </p>
+      </div>
+    </div>
+  </div>
+    <div id="ComingSoon" class="game-card">
+    <div class="game-card-inner">
+      <div class="game-card-front orange">
+        <h1 class="center-gameCard-text">Coming Soon</h1>
+      </div>
+      <div class="game-card-back pasty-orange">
+        <h2 class="center-gameCard-text">Currently in development</h2>
+      </div>
+    </div>
+  </div>
+    <div id="ComingSoon2" class="game-card">
+    <div class="game-card-inner">
+      <div class="game-card-front green">
+        <h1 class="center-gameCard-text">Coming Soon</h1>
+      </div>
+      <div class="game-card-back pasty-green">
+        <h2 class="center-gameCard-text">Currently in development</h2>
+      </div>
+    </div>
+  </div>
+    <div id="ComingSoon3" class="game-card">
+    <div class="game-card-inner">
+      <div class="game-card-front forestGreen">
+        <h1 class="center-gameCard-text">Coming Soon</h1>
+      </div>
+      <div class="game-card-back pasty-forestGreen">
+        <h2 class="center-gameCard-text">Currently in development</h2>
+      </div>
+    </div>
+  </div>
+    <div id="ComingSoon4" class="game-card">
+    <div class="game-card-inner">
+      <div class="game-card-front blue">
+        <h1 class="center-gameCard-text">Coming Soon</h1>
+      </div>
+      <div class="game-card-back pasty-blue">
+        <h2 class="center-gameCard-text">Currently in development</h2>
+      </div>
+    </div>
+  </div>
+    <div id="ComingSoon5"class="game-card">
+    <div class="game-card-inner">
+      <div class="game-card-front purple">
+        <h1 class="center-gameCard-text">Coming Soon</h1>
+      </div>
+      <div class="game-card-back pasty-purple">
+        <h2 class="center-gameCard-text">Currently in development</h2>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <button class="open-messaging-tab" onclick="openForm()">Messages</button>
+  <div class="popup-messenger" id="messenger">
+  </div>
+</div>
+<script src="{{url_for('static', filename='js/lobby.js')}}"></script>
+{% endblock %}
