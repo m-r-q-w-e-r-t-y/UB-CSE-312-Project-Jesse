@@ -1,0 +1,25 @@
+{
+  "name": "ub-cse-312-project-jesse",
+  "version": "1.0.0",
+  "description": "Project Title\r ===",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-r-q-w-e-r-t-y/UB-CSE-312-Project-Jesse.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-r-q-w-e-r-t-y/UB-CSE-312-Project-Jesse/issues"
+  },
+  "homepage": "https://github.com/m-r-q-w-e-r-t-y/UB-CSE-312-Project-Jesse#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "nodemon": "^2.0.15",
+    "path-to-regexp": "^6.2.0"
+  }
+}
