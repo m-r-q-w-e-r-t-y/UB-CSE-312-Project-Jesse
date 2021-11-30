@@ -9,7 +9,14 @@ Route.prototype.match = function (pathname, http_method) {
 };
 
 Route.prototype.sendResponse = function (req, res) {
-  this._callback(req, res);
+  try {
+    this._callback(req, res);
+  } catch (error) {
+    res.writeHead(500, {
+      "Content-Type": "application/json",
+    });
+    res.end(JSON.stringify({ error }));
+  }
 };
 
 module.exports = Route;
