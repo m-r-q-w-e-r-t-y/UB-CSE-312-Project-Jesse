@@ -1,5 +1,4 @@
 const http = require("http");
-
 const { routes, notFoundRoute } = require("./routes");
 
 const server = http.createServer(async (req, res) => {
