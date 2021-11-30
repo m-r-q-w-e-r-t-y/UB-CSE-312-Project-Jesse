@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'changeMe'
+      MYSQL_DATABASE: 'gameDB'
+      MYSQL_USER: 'devUser'
+      MYSQL_PASSWORD: 'allowAccess'
+  app:
+    tty: true
+    build: .
+    environment:
+      WAIT_HOSTS: mysql:3306
+      DB_HOST: mysql
+      DB_USERNAME: 'devUser'
+      DB_PASSWORD: 'allowAccess'
+    ports:
+    - "8080:8000"
