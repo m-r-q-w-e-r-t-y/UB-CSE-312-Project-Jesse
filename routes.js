@@ -1,14 +1,8 @@
 const fs = require("fs");
+const formidable = require("formidable");
 const Route = require("./route");
-const routes = [];
 
-routes.push(
-  new Route("/hello", "GET", (req, res) => {
-    res.writeHead(200, {
-      "Content-Type": "application/json",
-    });
-    res.end(JSON.stringify({ hello: "world" }));
-  }),
+const routes = [
   new Route("/signup", "GET", (req, res) => {
     const data = fs.readFileSync("views/signup.html");
     const html = data.toString();
@@ -38,8 +32,38 @@ routes.push(
       "Content-Length": Buffer.byteLength(css),
     });
     res.end(css);
-  })
-);
+  }),
+  new Route("/signup", "POST", (req, res) => {
+    const form = formidable({
+      uploadDir: "uploads",
+      keepExtensions: true,
+      filter: function ({ name, originalFilename, mimetype }) {
+        return mimetype && mimetype.includes("image");
+      },
+    });
+    form.parse(req, function (err, fields, files) {
+      if (err) {
+        res.writeHead(400, { "Content-Type": "text/plain" });
+        res.end(err);
+        return;
+      }
+      const { username, password } = fields;
+      const image_name = files["avatar"].toJSON()["newFilename"];
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify(
+          {
+            username,
+            password,
+            image_name,
+          },
+          null,
+          2
+        )
+      );
+    });
+  }),
+];
 
 const notFoundRoute = new Route("*", "*", (req, res) => {
   res.writeHead(404, {
