@@ -28,6 +28,16 @@ routes.push(
       "Content-Length": Buffer.byteLength(html, "utf-8"),
     });
     res.end(html);
+  }),
+  new Route("/main.css", "GET", (req, res) => {
+    const data = fs.readFileSync("views/main.css");
+    const html = data.toString();
+    res.writeHead(200, {
+      "Content-Type": "text/css; charset=utf-8",
+      "X-Content-Type-Options": "nosniff",
+      "Content-Length": Buffer.byteLength(html, "utf-8"),
+    });
+    res.end(html);
   })
 );
 
