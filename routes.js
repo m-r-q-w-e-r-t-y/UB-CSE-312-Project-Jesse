@@ -31,13 +31,13 @@ routes.push(
   }),
   new Route("/main.css", "GET", (req, res) => {
     const data = fs.readFileSync("views/main.css");
-    const html = data.toString();
+    const css = data.toString();
     res.writeHead(200, {
-      "Content-Type": "text/css; charset=utf-8",
+      "Content-Type": "text/css",
       "X-Content-Type-Options": "nosniff",
-      "Content-Length": Buffer.byteLength(html, "utf-8"),
+      "Content-Length": Buffer.byteLength(css),
     });
-    res.end(html);
+    res.end(css);
   })
 );
 
