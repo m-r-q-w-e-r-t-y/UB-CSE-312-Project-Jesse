@@ -1,6 +1,6 @@
 
 const http = require("http");
-const { routes, notFoundRoute } = require("./routes");
+const routes = require("./routes/index");
 
 const server = http.createServer(async (req, res) => {
   const { url, method } = req;
@@ -9,7 +9,8 @@ const server = http.createServer(async (req, res) => {
       return route.sendResponse(req, res);
     }
   }
-  notFoundRoute.sendResponse(req, res);
+  res.writeHead(404, { "Content-Type": "text/plain" });
+  res.end("Invalid API Call");
 });
 
 server.listen(8000, () => {
