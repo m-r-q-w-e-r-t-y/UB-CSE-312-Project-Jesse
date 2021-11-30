@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1 class="form-header">Login</h1>
+
+      <div class="form">
+        <form action="/login" method="POST">
+          <span>
+            <label for="username-input">Username:</label>
+            <input
+              type="text"
+              name="username"
+              id="username-input"
+              placeholder="Username"
+            />
+          </span>
+          <span>
+            <label for="password-input">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password-input"
+              placeholder="Password"
+            />
+          </span>
+          <input type="submit" name="login" id="login-input" value="Login" />
+        </form>
+        <div class="navigate-other-form">
+          <sub> New User ? Click below to Signup </sub>
+          <button>
+            <a href="/signup">Signup</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
