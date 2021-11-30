@@ -1,0 +1,47 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  .form-container {
+    width: 66.6vw;
+    margin: 0 auto;
+  }
+  
+  .form-header {
+    text-align: center;
+  }
+  
+  .form {
+    border-radius: 5px;
+    padding: 2rem;
+    border: 2px solid grey;
+  }
+  
+  .form span {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  #login-input,
+  #signup-input {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+  
+  .navigate-other-form {
+    margin-top: 2rem;
+  }
+  
+  .navigate-other-form sub {
+    display: block;
+    text-align: center;
+  }
+  
+  .navigate-other-form button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+  }
