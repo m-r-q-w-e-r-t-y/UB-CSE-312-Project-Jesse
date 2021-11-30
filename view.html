@@ -1,30 +1,37 @@
-<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tic Tac Toe</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <script src="script.js"></script>
+    <title>Tic-Tac-Toe</title>
 </head>
 <body>
-    <section>
-        <h1 class="game--title">Tic Tac Toe</h1>
-        <div class="game--container">
-            <div data-cell-index="0" class="cell"></div>
-            <div data-cell-index="1" class="cell"></div>
-            <div data-cell-index="2" class="cell"></div>
-            <div data-cell-index="3" class="cell"></div>
-            <div data-cell-index="4" class="cell"></div>
-            <div data-cell-index="5" class="cell"></div>
-            <div data-cell-index="6" class="cell"></div>
-            <div data-cell-index="7" class="cell"></div>
-            <div data-cell-index="8" class="cell"></div>
-        </div>
-        <h2 class="game--status"></h2>
-        <button class="game--restart">Restart Game</button>
-    </section>
-<script src="script.js"></script>
+    <main class="background">
+        <section class="title">
+            <h1>Tic Tac Toe</h1>
+        </section>
+        <section class="display">
+            Player <span class="display-player playerX">X</span>'s turn
+        </section>
+        <section class="container">
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+        </section>
+        <section class="display announcer hide"></section>
+        <section class="controls">
+            <button id="reset">Reset</button>
+        </section>
+    </main>
 </body>
 </html>
