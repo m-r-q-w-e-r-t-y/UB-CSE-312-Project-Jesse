@@ -1,13 +1,13 @@
 const Route = require("./../route");
-const loginGet = require("./login");
-const { signupGet, signupPost } = require("./signup");
-const stylesheetGet = require("./stylesheet");
+const login = require("./login");
+const signup = require("./signup");
+const stylesheet = require("./stylesheet");
 
 const routes = [];
 
-routes.push(new Route("/login", "GET", loginGet));
-routes.push(new Route("/signup", "GET", signupGet));
-routes.push(new Route("/signup", "POST", signupPost));
-routes.push(new Route("/main.css", "GET", stylesheetGet));
+routes.push(new Route("/login", "GET", login.GET));
+routes.push(new Route("/signup", "GET", signup.GET));
+routes.push(new Route("/signup", "POST", signup.POST));
+routes.push(new Route("/main.css", "GET", stylesheet.GET));
 
 module.exports = routes;

@@ -1,6 +1,8 @@
 const fs = require("fs");
 
-function stylesheetGet(req, res) {
+const stylesheet = {};
+
+stylesheet.GET = function (req, res) {
   const data = fs.readFileSync("views/main.css");
   const css = data.toString();
   res.writeHead(200, {
@@ -9,6 +11,6 @@ function stylesheetGet(req, res) {
     "Content-Length": Buffer.byteLength(css),
   });
   res.end(css);
-}
+};
 
-module.exports = stylesheetGet;
+module.exports = stylesheet;

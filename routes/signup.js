@@ -1,7 +1,9 @@
 const fs = require("fs");
 const formidable = require("formidable");
 
-function signupGet(req, res) {
+const signup = {};
+
+signup.GET = function (req, res) {
   const data = fs.readFileSync("views/signup.html");
   const html = data.toString();
   res.writeHead(200, {
@@ -10,9 +12,9 @@ function signupGet(req, res) {
     "Content-Length": Buffer.byteLength(html, "utf-8"),
   });
   res.end(html);
-}
+};
 
-function signupPost(req, res) {
+signup.POST = function (req, res) {
   const form = formidable({
     uploadDir: "uploads",
     keepExtensions: true,
@@ -41,6 +43,6 @@ function signupPost(req, res) {
       )
     );
   });
-}
+};
 
-module.exports = { signupGet, signupPost };
+module.exports = signup;
