@@ -7,27 +7,37 @@
     <link rel="stylesheet" href="main.css" />
     <title>Sign Up</title>
     <script>
-      function formValidate() {
-        if (
-          document.getElementById("password-input").value ===
-          document.getElementById("confirm-password-input").value
-        ) {
-          document.getElementById("signup-input").disabled = false;
-          document.getElementById("error-message").innerHTML = "";
-        } else {
-          document.getElementById("signup-input").disabled = true;
-          document.getElementById("error-message").innerHTML =
-            "Passwords do not match";
-        }
+      function getValueById(id) {
+        return document.getElementById(id).value;
+      }
+      function submitSignupForm() {
+        const username = getValueById("username-input");
+        const password = getValueById("password-input");
+        const confirm_password = getValueById("confirm-password-input");
+        const image_file = document.getElementById("avatar").files[0];
+
+        var request = new XMLHttpRequest();
+        request.open("POST", "/signup");
+        request.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            console.log(this.response);
+          }
+        };
+
+        const form = new FormData();
+        form.append("username", username);
+        form.append("password", password);
+        form.append("confirm-password", confirm_password);
+        form.append("avatar", image_file);
+        request.send(form);
       }
     </script>
   </head>
   <body>
     <div class="form-container">
       <h1 class="form-header">Sign Up</h1>
-
       <div class="form">
-        <form action="/signup" method="POST" enctype="multipart/form-data">
+        <form>
           <span>
             <label for="username-input">Username:</label>
             <input
@@ -35,7 +45,6 @@
               name="username"
               id="username-input"
               placeholder="Username"
-              onchange="formValidate()"
               required
             />
           </span>
@@ -46,7 +55,6 @@
               name="password"
               id="password-input"
               placeholder="Password"
-              onchange="formValidate()"
               required
             />
           </span>
@@ -57,7 +65,6 @@
               name="confirm-password"
               id="confirm-password-input"
               placeholder="Confirm Password"
-              onchange="formValidate()"
               required
             />
           </span>
@@ -71,7 +78,7 @@
               required
             />
           </span>
-          <input type="submit" name="signup" id="signup-input" value="Signup" />
+          <input type="button" onclick="submitSignupForm()" value="Signup" />
         </form>
         <span
           class="error-message"
