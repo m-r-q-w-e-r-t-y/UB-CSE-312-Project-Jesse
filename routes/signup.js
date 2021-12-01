@@ -28,8 +28,19 @@ signup.POST = function (req, res) {
       res.end(err);
       return;
     }
-    const { username, password } = fields;
-    const image_name = files["avatar"].toJSON()["newFilename"];
+    const username = fields["username"];
+    const password = fields["password"];
+    const confirm_password = fields["confirm-password"];
+    const image_name =
+      files["avatar"] && files["avatar"].toJSON()["newFilename"];
+
+    //If any field is missing, return 400 error
+    if (!(username && password && confirm_password && image_name)) {
+      res.writeHead(400, { "Content-Type": "text/plain" });
+      res.end("All fields must be filled");
+      return;
+    }
+
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify(
