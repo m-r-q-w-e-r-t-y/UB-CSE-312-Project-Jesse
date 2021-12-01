@@ -1,6 +1,9 @@
 const fs = require("fs");
-const path = require("path");
+const bcrypt = require("bcryptjs");
 const formidable = require("formidable");
+
+const { User } = require("./../db_init");
+
 const signup = {};
 
 signup.GET = function (req, res) {
@@ -53,18 +56,26 @@ signup.POST = function (req, res) {
     const image_data = fs.readFileSync(image.filepath);
     fs.writeFileSync("uploads/" + image_name, image_data);
 
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify(
-        {
-          username,
-          password,
-          image_name,
-        },
-        null,
-        2
-      )
-    );
+    User.getUserRecordByName([username], (result) => {
+      if (result) {
+        // If a user with the submitted username already exists, send 400 error code
+        res.writeHead(400, { "Content-Type": "text/plain" });
+        res.end("Username already taken");
+        return;
+      }
+      const hashed_password = bcrypt.hashSync(password, 10);
+      User.insertUser([username, hashed_password, image_name], (err) => {
+        if (err) {
+          res.writeHead(500, {
+            "Content-Type": "text/plain",
+          });
+          res.end(err.toString());
+          return;
+        }
+        res.writeHead(201, { "Content-Type": "text/plain" });
+        res.end("Account created");
+      });
+    });
   });
 };
 
