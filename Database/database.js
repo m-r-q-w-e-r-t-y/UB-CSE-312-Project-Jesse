@@ -17,13 +17,11 @@ class Database {
           
         this.connection.connect(function(err) {
             if (err) {
-                console.log("Refused Connetion!");
+                console.log("Database refused Connetion!");
                 throw err
             } 
-            console.log("Connected!");
+            console.log("Database is Connected!");
         });
-
-        this.createUserTable();
     }
 
     createUserTable() {
@@ -106,6 +104,10 @@ class Database {
         console.log("Successfully deleted by name from user Table created!");
         console.log("Number of records deleted: " + result.affectedRows);
         });
+    }
+
+    getConnection() {
+        return this.connection;
     }
 
 };
