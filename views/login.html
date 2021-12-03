@@ -6,13 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="main.css" />
     <title>Login</title>
+    <script>
+      function getValueById(id) {
+        return document.getElementById(id).value;
+      }
+      function submitLoginForm() {
+        const username = getValueById("username-input");
+        const password = getValueById("password-input");
+
+        var request = new XMLHttpRequest();
+        request.open("POST", "/login");
+        request.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            console.log(this.response);
+          }
+        };
+
+        const form = new FormData();
+        form.append("username", username);
+        form.append("password", password);
+        request.send(form);
+      }
+    </script>
   </head>
   <body>
     <div class="form-container">
       <h1 class="form-header">Login</h1>
 
       <div class="form">
-        <form action="/login" method="POST">
+        <form>
           <span>
             <label for="username-input">Username:</label>
             <input
@@ -31,7 +53,7 @@
               placeholder="Password"
             />
           </span>
-          <input type="submit" name="login" id="login-input" value="Login" />
+          <input type="button" onclick="submitLoginForm()" value="Login" />
         </form>
         <div class="navigate-other-form">
           <sub> New User ? Click below to Signup </sub>

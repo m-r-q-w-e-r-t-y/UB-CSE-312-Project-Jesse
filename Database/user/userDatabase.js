@@ -94,23 +94,16 @@ class UserDatabase {
         console.log(
           "Unable to select by username = " + name[0] + " from user Table!"
         );
-        throw err;
+        callback(null, err);
+        return;
       }
 
       if (result.length > 0) {
         console.log("Successfully selected by name from user Table!");
-
-        const userMap = new Map();
-        userMap.set("id", result[0].userId);
-        userMap.set("username", result[0].username);
-        userMap.set("password", result[0].hashedPassword);
-        userMap.set("profilePicPath", result[0].profilePicPath);
-        userMap.set("authToken", result[0].authToken);
-
-        callback(userMap);
+        callback(result[0], null);
       } else {
         console.log("No records were found!");
-        callback(null);
+        callback(null, null);
       }
     });
   }
@@ -202,17 +195,19 @@ class UserDatabase {
   }
 
   /* Used to update the authToken of username, ex: username = ['bob'] */
-  updateUserAuthTokenByName(values) {
+  updateUserAuthTokenByName(values, callback) {
     var sqlStatement = "UPDATE user SET authToken = ? WHERE username = ?";
     sqlStatement = mysql.format(sqlStatement, values);
 
     this.connection.query(sqlStatement, function (err, result) {
       if (err) {
         console.log("Unable to update authToken by name from user Table!");
-        throw err;
+        callback(err);
+        return;
       }
       console.log("Successfully updated authToken by name from user Table!");
       console.log(result.affectedRows + " record(s) updated");
+      callback();
     });
   }
 

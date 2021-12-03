@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/m-r-q-w-e-r-t-y/UB-CSE-312-Project-Jesse#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "formidable": "^2.0.1",
     "mysql": "^2.18.1",
