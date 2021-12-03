@@ -100,7 +100,13 @@ class UserDatabase {
 
       if (result.length > 0) {
         console.log("Successfully selected by name from user Table!");
-        callback(result[0], null);
+        const userMap = new Map();
+        userMap.set("id", result[0].userId);
+        userMap.set("username", result[0].username);
+        userMap.set("password", result[0].hashedPassword);
+        userMap.set("profilePicPath", result[0].profilePicPath);
+        userMap.set("authToken", result[0].authToken);
+        callback(userMap, null);
       } else {
         console.log("No records were found!");
         callback(null, null);

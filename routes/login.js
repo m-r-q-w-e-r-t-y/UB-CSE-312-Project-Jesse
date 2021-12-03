@@ -41,7 +41,7 @@ login.POST = function (req, res) {
       }
       if (
         !user_record ||
-        !bcrypt.compareSync(password, user_record.hashedPassword)
+        !bcrypt.compareSync(password, user_record.get("password"))
       ) {
         res.writeHead(401, { "Content-Type": "text/plain" });
         res.end("Incorrect Username or Password");
