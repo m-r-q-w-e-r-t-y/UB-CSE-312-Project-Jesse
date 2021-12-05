@@ -1,0 +1,260 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  .form-container {
+    width: 66.6vw;
+    margin: 0 auto;
+  }
+  
+  .form-header {
+    text-align: center;
+  }
+  
+  .form {
+    border-radius: 5px;
+    padding: 2rem;
+    border: 2px solid grey;
+  }
+  
+  .form span {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  #login-input,
+  #signup-input {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+  
+  .navigate-other-form {
+    margin-top: 2rem;
+  }
+  
+  .navigate-other-form sub {
+    display: block;
+    text-align: center;
+  }
+  
+  .navigate-other-form button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+  }
+
+  .game-container {
+    alignment: center;
+    display: grid;
+    grid-gap: 5px;
+    background-color: #36454F;
+    grid-template-columns: auto auto auto;
+    min-width: fit-content;
+    margin: auto;
+  }
+  
+  .game-card {
+    background-color: transparent;
+    height: 225px;
+    min-width: 300px;
+    padding: 20px;
+    font-size: 30px;
+    perspective: 1000px
+  }
+  
+  
+  .game-card h1{
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .game-card h2{
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .game-card p{
+    font-size: 14px;
+    text-align: left;
+  }
+  
+  .game-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  
+  .game-card:hover .game-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .game-card-front, .game-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .game-card-front {
+    color: black;
+  }
+  
+  .red{
+    background-color: #CC0000;
+  }
+  
+  .orange{
+    background-color: #E69138;
+  }
+  
+  .green{
+    background-color: #6AA84F;
+  }
+  
+  .forestGreen{
+    background-color: #1A5653;
+  }
+  
+  .blue{
+    background-color: #3D85C6;
+  }
+  
+  .purple{
+    background-color: #674EA7;
+  }
+  
+  .game-card-back {
+    color: white;
+    transform: rotateY(180deg);
+    overflow-y: scroll;
+  
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .pasty-red{
+    background-color: #e06666;
+  }
+  
+  .pasty-orange{
+    background-color: #f6b26b;
+  }
+  
+  .pasty-green{
+    background-color: #93c47d;
+  }
+  
+  .pasty-forestGreen{
+    background-color: #477775;
+  }
+  
+  .pasty-blue{
+    background-color: #6fa8dc;
+  }
+  
+  .pasty-purple{
+    background-color: #8e7cc3;
+  }
+  
+  .center-gameCard-text {
+    padding-top: 70px;
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .game-card-back::-webkit-scrollbar {
+      display: none;
+  }
+
+
+
+  /* This is copied code */
+  * {
+    padding: 0;
+    margin: 0;
+}
+
+.background {
+    background-color: #12181B;
+    height: 100vh;
+    padding-top: 1px;
+}
+
+.title {
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 10%;
+}
+
+.display {
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.hide {
+    display: none;
+}
+
+.container {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 33% 33% 33%;
+    max-width: 300px;
+
+}
+
+.tile {
+    border: 1px solid white;
+    min-width: 100px;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.playerX {
+    color: #09C372;
+}
+
+.playerO {
+    color: #498AFB;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.controls button {
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+.restart {
+    background-color: #498AFB;
+}
+
+#reset {
+    background-color: #FF3860;
+}

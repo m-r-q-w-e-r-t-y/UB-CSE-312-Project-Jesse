@@ -27,7 +27,7 @@ class Response:
     # hostPath = "./sample_page/"
     # hostPath = "./HW3-WebSocketsDatabasesAPIs/sample_page/" python2
     # hostPath = "./sample_page/" # python3
-    hostPath = "./webpages/"
+    hostPath = "./webpages/htmlFiles/"
 
     # request: Object
     def __init__(self, request, mongo):
@@ -95,15 +95,20 @@ class Response:
         else:
             self.handleNotFound()   
 
+    # def handleOK(self):
+    #     if self.request.getReqType() == "GET":
+    #         self.handleGET()
+        # if self.request.getReqType() == "POST":
+        #     self.handlePOST()
+
     def handleOK(self):
-        # is path a file
         if "." in self.request.getPath():
-            relativePath = self.request.getPath()[1::]
+            relativePath = self.extractFile(self.request.getPath())
             print(relativePath)
             fileBytes = self.fileBytes(relativePath)
             byteLength = len(fileBytes)
             textType = "utf-8"
-            fileType = extensions[relativePath[relativePath.index(".")::]]
+            fileType = extensions[self.extractExtension(relativePath)]
 
             self.headers = "Content-Type: {}; charset=utf-8\r\n".format(fileType, textType)
             self.headers += "Content-Length: {}\r\n".format(byteLength)
@@ -113,8 +118,8 @@ class Response:
             self.body = "{}".format(fileBytes.decode("utf-8"))
 
         elif "/" == self.request.getPath():
-            name = "htmlFiles/login.html"
-            file = HTMLFile(self.hostPath+name)
+            url = "./webpages/htmlFiles/login.html"
+            file = HTMLFile(url)
             fileb = None
             if "Cookie" in self.request.getHeaders():
                 cookieValues = self.getRequestCookies()
@@ -124,7 +129,7 @@ class Response:
                 # fileb = file.fileb.decode('utf-8')
                 fileb = file.updateCount("This is the first time you are visiting this page")
             length = len(fileb)
-            fileType = extensions[name[name.index(".")::]]
+            fileType = extensions[self.extractExtension(url)]
 
             self.startLine = "HTTP/1.1 200 OK\r\n"
 
@@ -137,66 +142,18 @@ class Response:
             
             self.body = "{}".format(fileb)
         
-        elif "/login" == self.request.getPath():
-            user = self.returnUser()
-            message = ""
-            if self.isValidPassword(user["password"]):
-                if self.isInDB(user):
-                    message = "Welcome back {}".format(user["username"])
-                else:
-                    message = "Invalid login credentials"
-                length = len(message)
-                self.headers = "Content-Type: text/plain; charset=utf-8\r\n"
-                self.headers += "Content-Length: {}\r\n".format(length)
-                self.headers += "X-Content-Type-Options: nosniff\r\n"
-                self.headers += "\r\n"
-                
-                self.body = message
-            else:
-                message = "Password did not meet requirements"
-                length = len(message)
-                self.headers = "Content-Type: text/plain; charset=utf-8\r\n"
-                self.headers += "Content-Length: {}\r\n".format(length)
-                self.headers += "X-Content-Type-Options: nosniff\r\n"
-                self.headers += "\r\n"
-                
-                self.body = message
+    # def handlePOST(self):
+    #     # print(self.request.getBody())
+    #     # userinformation = self.returnUser()
+    #     # message = "This is your username: {}\n This is your password: {}\n".format(userinformation[])
+    #     if "/login" in self.request.getPath():
+    #         self.headers = "Content-Type: {}; charset=utf-8\r\n".format(fileType, textType)
+    #         self.headers += "Content-Length: {}\r\n".format(byteLength)
+    #         self.headers += "X-Content-Type-Options: nosniff\r\n"
+    #         self.headers += "\r\n"
+            
+    #         self.body = "{}".format(fileBytes.decode("utf-8"))
 
-
-        elif "/signup" == self.request.getPath():
-            user = self.returnUser()
-            message = ""
-            if self.isValidPassword(user["password"]):
-                if self.isInDB(user):
-                    message = "You are in the database, already. Use the login button {}".format(user["username"])
-                else:
-                    message = "Successfully signed up {}".format(user["username"])
-                    password = user["password"].encode("utf-8")
-                    salt = bcrypt.gensalt()
-                    user["password"] = bcrypt.hashpw(password, salt)
-                token = self.returnSessionToken()
-                user["token"] = hashlib.sha256(token.encode('utf-8')).hexdigest()
-                self.mongo.insert_one(user)
-                length = len(message)
-                self.headers = "Content-Type: text/plain; charset=utf-8\r\n"
-                self.headers += "Content-Length: {}\r\n".format(length)
-                self.headers += "X-Content-Type-Options: nosniff\r\n"
-                self.headers += "\r\n"
-                
-                tempHeaders = self.headers
-                cookieHeaders = "Set-Cookie: id= {}; Max-Age=3600; Secure; HttpOnly\r\n".format(self.returnSessionToken())
-                self.headers = cookieHeaders + tempHeaders
-
-                self.body = message
-            else:
-                message = "Password did not meet requirements"
-                length = len(message)
-                self.headers = "Content-Type: text/plain; charset=utf-8\r\n"
-                self.headers += "Content-Length: {}\r\n".format(length)
-                self.headers += "X-Content-Type-Options: nosniff\r\n"
-                self.headers += "\r\n"
-                
-                self.body = message
 
     def handleWebSocket(self):
         extractedKey = self.request.getHeaders()["Sec-WebSocket-Key"] + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
@@ -314,6 +271,18 @@ class Response:
         alphabet = string.ascii_letters + string.digits
         token = ''.join(secrets.choice(alphabet) for i in range(32))
         return token
+
+    def extractExtension(self, url):
+        url = url.split("/")
+        file = url.pop()
+        extension = file[file.index(".")::]
+        return extension
+
+    def extractFile(self, url):
+        url = url.split("/")
+        file = url.pop()
+        return file
+
 
 
 
