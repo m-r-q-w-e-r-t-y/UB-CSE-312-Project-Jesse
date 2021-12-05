@@ -1,41 +1,49 @@
-{% extends 'base.html' %} {% block head %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/login.css') }}"
-/>
-<title>Login</title>
-{% endblock %} {% block body %}
-<div class="form-container">
-  <h1 class="form-header">Login</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+  </head>
+  <body>
+    <title>Login</title>
+    <div class="form-container">
+      <h1 class="form-header">Login</h1>
 
-  <div class="form">
-    <form action="/login" method="POST">
-      <span>
-        <label for="username-input">Username:</label>
-        <input
-          type="text"
-          name="username"
-          id="username-input"
-          placeholder="Username"
-        />
-      </span>
-      <span>
-        <label for="password-input">Password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password-input"
-          placeholder="Password"
-        />
-      </span>
-      <input type="submit" name="login" id="login-input" value="Login" />
-    </form>
-    <div class="navigate-other-form">
-      <sub> New User ? Click below to Signup </sub>
-      <button>
-        <a href="{{ url_for('signup') }}">Signup</a>
-      </button>
+      <div class="form">
+        <form action="/login" method="POST">
+          <span>
+            <label for="username-input">Username:</label>
+            <input
+              type="text"
+              name="username"
+              id="username-input"
+              placeholder="Username"
+            />
+          </span>
+          <span>
+            <label for="password-input">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password-input"
+              placeholder="Password"
+            />
+          </span>
+          <input type="submit" name="login" id="login-input" value="Login" />
+        </form>
+        <div class="navigate-other-form">
+          <sub> New User ? Click below to Signup </sub>
+          <button>
+            <a href="{{ url_for('signup') }}">Signup</a>
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-{% endblock %}
+  </body>
+</html>
+
