@@ -172,6 +172,153 @@ body {
       display: none;
   }
 
+  .open-messaging-tab {
+    background-color: #36454F;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+    border-radius: 12px;
+  }
+
+  .close-messaging-tab {
+    background-color: #36454F;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    height: 50px;
+    width: 320px;
+  }
+
+  .popup-messenger {
+    background: white;
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    right: 15px;
+    border: 1px solid black;
+    z-index: 9;
+  }
+
+  .chat-container {
+    background-color: white;
+    alignment: center;
+    min-width: 300px;
+    max-width: 30px;
+    margin: auto;
+    max-height: 350px;
+  }
+
+  .chat-container textarea {
+    background: lightgrey;
+    margin-top: 10px;
+    padding: 0px;
+    width: 290px;
+    border-style: solid;
+    border-width: 2px;
+    resize: none;
+    min-height: 50px;
+  }
+
+  .chat-container textarea:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+
+  .chat-container .btn {
+    background-color: #04AA6D;
+    color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    cursor: pointer;
+    width: 145px;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+
+  .chat-container .cancel {
+    background-color: red;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+  }
+
+  .chat-container .playGame {
+    background-color: black;
+    color: white;
+    min-width: 300px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+  }
+
+  .chat-container .btn:hover, .open-button:hover {
+      opacity: 1;
+  }
+
+  .user-container {
+    background-color: white;
+    alignment: center;
+    display: grid;
+    grid-gap: 2px;
+    grid-template-columns: auto;
+    min-width: 300px;
+    margin: auto;
+
+    max-height: 300px;
+    overflow-y: auto;
+
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+  .user-container::-webkit-scrollbar {
+     display: none;
+  }
+
+  .user-tab {
+    background-color: lightgrey;
+    height: 45px;
+    min-width: 300px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .center-user-name {
+    padding-top: 1px;
+  }
+
+ .message-window {
+    background-color: white;
+    margin-top: 5px;
+    alignment: center;
+    max-width: 290px;
+    border-style: solid;
+    border-width: 2px;
+    max-height: 200px;
+    min-height: 200px;
+    overflow-y: auto;
+
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+  .message-window::-webkit-scrollbar {
+    display: none;
+ }
+
+  .message-window p{
+    font-size: 12px;
+  }
+
 
 
   /* This is copied code */
