@@ -19,7 +19,7 @@ class UserDatabase:
     def createUserTable(self):
         cursor = self.connection.cursor()
         cursor.execute(
-            "CREATE TABLE IF NOT EXISTS user (userId INT AUTO_INCREMENT, username TEXT NOT NULL, hashedPassword TEXT NOT NULL, profilePicPath TEXT, authToken TEXT, primary key (userId))")
+            "CREATE TABLE IF NOT EXISTS user (userId INT AUTO_INCREMENT, username TEXT NOT NULL, hashedPassword TEXT NOT NULL, profilePicPath TEXT NOT NULL, authToken TEXT, primary key (userId))")
         print("Successfully created user Table!")
 
     # Used to drop user Table
@@ -164,3 +164,13 @@ class UserDatabase:
         cursor.execute(sqlQuery, sqlValues)
         self.connection.commit()
         print("Successfully deleted " + username + "'s record from user Table!")
+
+    # Retrieve all usernames from user table, output excludes the username given in parameter
+    def getAllUsernames(self, username):
+        records = self.selectAllUser()
+        allUsers = []
+
+        for userData in records:
+            if userData["username"] != username:
+                allUsers.append(userData["username"])
+        return allUsers
