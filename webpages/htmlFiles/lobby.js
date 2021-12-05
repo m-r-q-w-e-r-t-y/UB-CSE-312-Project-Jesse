@@ -55,3 +55,65 @@ function openChat(user) {
 
     document.getElementById("messenger").innerHTML=chatContent;
 }
+
+// Establish a WebSocket connection with the server
+const socket = new WebSocket('ws://' + window.location.host + '/websocket');
+
+// Call the addMessage function whenever data is received from the server over the WebSocket
+socket.onmessage = addMessage;
+
+// Allow users to send messages by pressing enter instead of clicking the Send button
+document.addEventListener("keypress", function (event) {
+   if (event.code === "Enter") {
+       sendMessage();
+   }
+});
+
+// Read the name/comment the user is sending to chat and send it to the server over the WebSocket as a JSON string
+// Called whenever the user clicks the Send button or pressed enter
+function sendMessage() {
+    const chatName = document.getElementById("chat-name").value;
+    const chatBox = document.getElementById("chat-comment");
+    const comment = chatBox.value;
+    chatBox.value = "";
+    chatBox.focus();
+    if(comment !== "") {
+        socket.send(JSON.stringify({'username': chatName, 'comment': comment}));
+    }
+ }
+
+ // Called when the server sends a new message over the WebSocket and renders that message so the user can read it
+function addMessage(message) {
+    const chatMessage = JSON.parse(message.data);
+    let chat = document.getElementById('chat');
+    // chat.innerHTML += "<b>" + chatMessage['username'] + "</b>: " + chatMessage["comment"] + "<br/>";
+    chat.innerHTML += "<button onclick=playGame()>" + chatMessage['username'] + "</button>: " + chatMessage["comment"] + "<br/>";
+}
+
+function playGame() {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+       if (this.readyState === 4 && this.status === 200){
+          console.log(this.response)
+       }
+    }
+ 
+    // For security purposes, use a POST request
+    request.open("GET", "/tictactoe");
+    // request.send(jsonData);
+}
+
+if(window.attachEvent) {
+    window.attachEvent('onload', playGame());
+} else {
+    if(window.onload) {
+        var curronload = window.onload;
+        var newonload = function(evt) {
+            curronload(evt);
+            yourFunctionName(evt);
+        };
+        window.onload = newonload;
+    } else {
+        window.onload = playGame();
+    }
+}

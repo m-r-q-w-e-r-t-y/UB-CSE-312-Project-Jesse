@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="./webpages/cssFiles/main.css"/>
+    <link rel="stylesheet" type="text/css" href="main.css"/>
   </head>
   <body>
     <title>Game Lobby</title>
@@ -82,10 +82,22 @@
         </div>
       </div>
 
-      <button class="open-messaging-tab" onclick="openForm()">Messages</button>
-      <div class="popup-messenger" id="messenger">
+      <!-- <button class="open-messaging-tab" onclick="openForm()">Messages</button>
+      <div class="popup-messenger" id="messenger"> -->
+      <h3>Chat</h3>
+      <label for="chat-name">Name: </label>
+      <input id="chat-name" type="text" name="name">
+      <br/>
+      <label for="chat-comment">Comment: </label>
+      <input id="chat-comment" type="text" name="comment">
+
+      <button onclick="sendMessage()">Chat</button>
+
+      
+      <div id="chat"></div>
+
       </div>
     </div>
-    <script src="{{url_for('static', filename='js/lobby.js')}}"></script>
+    <script src="/lobby.js"></script>
   </body>
 </html>

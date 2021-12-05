@@ -15,8 +15,11 @@ paths = {
     "/image/kitten.jpg":"200",
     "/image/parrot.jpg":"200",
     "/image/rabbit.jpg":"200",
-    "/login": "200",
-    "/signup": "200",
-    "/lobby":"200",
-    "/webpages/cssFiles/main.css":"200"
+    "/login.html": "200",
+    "/signup.html": "200",
+    "/lobby.html":"200",
+    "/tictactoe.html":"200",
+    "/main.css":"200",
+    "/lobby.js":"200",
+    "/login":"200"
 }
