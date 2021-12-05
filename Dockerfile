@@ -4,6 +4,8 @@ ENV HOME /root
 WORKDIR /root 
 
 COPY . .
+#RUN npm install -G mysql
+RUN pip install mysql-connector-python
 RUN pip install -r requirements.txt
 
 EXPOSE 8000

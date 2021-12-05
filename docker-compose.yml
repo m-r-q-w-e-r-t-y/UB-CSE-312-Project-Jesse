@@ -1,12 +1,21 @@
-version: '3.3' 
+version: '3.3'
+
 services:
-  mongo:
-    image: mongo:4.2.5
-    ports:
-      - '27017:27017'
-  app:
-    build: . 
+  mysql:
+    image: mysql:latest
     environment:
-      WAIT_HOSTS: mongo:27017 
+      MYSQL_ROOT_PASSWORD: 'changeMe'
+      MYSQL_DATABASE: 'gameDB'
+      MYSQL_USER: 'devUser'
+      MYSQL_PASSWORD: 'allowAccess'
+  app:
+    tty: true
+    build: .
+    environment:
+      WAIT_HOSTS: mysql:3306
+      DB_HOST: mysql
+      DB_USERNAME: 'devUser'
+      DB_PASSWORD: 'allowAccess'
+      DB_NAME: 'gameDB'
     ports:
-      - '8080:8000'
+    - "8080:8000"
