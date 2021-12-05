@@ -24,9 +24,10 @@ class Response:
 
     request = None
 
-    hostPath = "./sample_page/"
+    # hostPath = "./sample_page/"
     # hostPath = "./HW3-WebSocketsDatabasesAPIs/sample_page/" python2
     # hostPath = "./sample_page/" # python3
+    hostPath = "./webpages/"
 
     # request: Object
     def __init__(self, request, mongo):
@@ -98,6 +99,7 @@ class Response:
         # is path a file
         if "." in self.request.getPath():
             relativePath = self.request.getPath()[1::]
+            print(relativePath)
             fileBytes = self.fileBytes(relativePath)
             byteLength = len(fileBytes)
             textType = "utf-8"
@@ -111,7 +113,7 @@ class Response:
             self.body = "{}".format(fileBytes.decode("utf-8"))
 
         elif "/" == self.request.getPath():
-            name = "form.html"
+            name = "htmlFiles/login.html"
             file = HTMLFile(self.hostPath+name)
             fileb = None
             if "Cookie" in self.request.getHeaders():

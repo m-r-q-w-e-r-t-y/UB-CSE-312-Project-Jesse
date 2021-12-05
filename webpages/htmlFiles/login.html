@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/main.css') }}"
-    />
+    <link rel="stylesheet" type="text/css" href="./webpages/cssFiles/main.css"/>
   </head>
   <body>
     <title>Login</title>
@@ -39,11 +36,10 @@
         <div class="navigate-other-form">
           <sub> New User ? Click below to Signup </sub>
           <button>
-            <a href="{{ url_for('signup') }}">Signup</a>
+            <a href="/signup">Signup</a>
           </button>
         </div>
       </div>
     </div>
   </body>
 </html>
-

@@ -16,5 +16,7 @@ paths = {
     "/image/parrot.jpg":"200",
     "/image/rabbit.jpg":"200",
     "/login": "200",
-    "/signup": "200"
+    "/signup": "200",
+    "/lobby":"200",
+    "/webpages/cssFiles/main.css":"200"
 }
