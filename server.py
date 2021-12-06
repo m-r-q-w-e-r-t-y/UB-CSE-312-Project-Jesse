@@ -1,7 +1,7 @@
 import socketserver
 import sys
 import pymongo
-
+import math
 from Response import Response
 from Request import Request
 from WebSocket import WebSocket
@@ -17,9 +17,30 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     db = client["database"]
     info = db["clients"]
 
-    # Note: Takes request and processes a response
     def handle(self):
+        all_request = []
+
         data = self.request.recv(1024)
+
+        if b'Content-Type' in data:
+            content_length = ''
+
+            splitRequest = data.splitlines()
+
+            for i in splitRequest:
+                if 'Content-Length' in i.decode('utf-8'):
+                    content_length += i.decode('utf-8')
+
+            content_length = content_length.split(' ')[1]
+
+            for i in range(0, math.ceil(int(content_length) / 1024)):
+                all_request.append(self.request.recv(1024))
+
+            data += b''.join(all_request)
+
+        print("Request\n-----------------------------------")
+        print(data)
+        print("-----------------------------------")
 
         # HTTP
         request = Request(data)
@@ -42,13 +63,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         # Websocket
         if "Upgrade" in request.getHeaders() and request.getHeaders()["Upgrade"] == "websocket":
             print("---------------- WebSocket Zone ----------------")
-            data = ""
+            request = ""
             while True:
                 try:
                     # if self.request not in self.clients:
                     #     self.clients.append(self.request)
-                    data = self.request.recv(1024)
-                    webframe = bytearray(data)
+                    request = self.request.recv(1024)
+                    webframe = bytearray(request)
                     websocket = WebSocket(webframe)
                     self.request.sendall(websocket.getResponse())
                     # for c in self.clients:
@@ -58,12 +79,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             print("------------------------------------------------")
 
         print("-------")
-        
 
 if __name__ == "__main__":  
     print("\n")
 
-    print("Listening on Port 8000 . . .")
+    print("Listening on Port 8080 . . .")
     sys.stdout.flush()
 
     HOST, PORT = "0.0.0.0", 8000
