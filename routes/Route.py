@@ -10,6 +10,10 @@ class Route:
     def match(self,request: Request) -> bool:
         return self.path == request.path and request.req_type in self.methods
 
+    def getResponse(self,request: Request):
+        '''Define in child class'''
+        pass
+
     @staticmethod
     def buildResponse(http_code: int,headers: dict,body: bytes) -> bytes:
 
@@ -54,7 +58,7 @@ class Route:
 
         except Exception:
             print(f'Error while reading file {filename}: {Exception}')
-            return None
+            return Route.buildResponse(404,{"Content-Type":"text/plain"},b'Requested file not found')
 
     
 
