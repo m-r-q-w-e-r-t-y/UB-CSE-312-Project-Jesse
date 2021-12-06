@@ -21,5 +21,6 @@ paths = {
     "/tictactoe.html":"200",
     "/main.css":"200",
     "/lobby.js":"200",
+    "/tictactoe.js":"200",
     "/login":"200"
 }
