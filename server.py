@@ -14,7 +14,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
         if Route.fileRequested(request):
             response = Route.getFileDynamically(request)
-            print(response)
             return self.request.sendall(response)
         
 
