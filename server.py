@@ -6,6 +6,7 @@ from Response import Response
 from Request import Request
 from WebSocket import WebSocket
 from pprint import pprint
+from FormParser import formParser
 
 
 # Note: Handles TCP connections (request and response)
@@ -24,14 +25,17 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         # HTTP
         request = Request(data)
 
-        if "Content-Length" in request.getHeaders():
-            content_length = int(request.getHeaders()["Content-Length"])
-            while len(data) < content_length:
+        if "Content-Length" in request.getHeaders() and "Content-Type" in request.getHeaders() and "multipart/form-data" in request.getHeaders()["Content-Type"]:
+            bytes_needed = int(request.getHeaders()["Content-Length"])
+            bytes_received = len(data) - len(data.split(b'\r\n\r\n')[0])
+            while bytes_received < bytes_needed:
                 buffer_chunk = self.request.recv(1024)
                 if not buffer_chunk:
                     break
                 data += buffer_chunk
-        
+                bytes_received += len(buffer_chunk)
+            form = formParser(data)
+            request = Request(data)
         response = Response(request, self.info)
         self.request.sendall(response.getResponse())
 

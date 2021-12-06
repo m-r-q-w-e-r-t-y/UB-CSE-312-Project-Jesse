@@ -6,8 +6,8 @@ class Request:
     body = None
 
     def __init__(self, byteRequest):
-        req = byteRequest.decode("utf_8").split("\r\n\r\n")
-        headers = req[0].split("\r\n")
+        req = byteRequest.split(b"\r\n\r\n")
+        headers = req[0].decode("utf-8").split("\r\n")
         self.startLine = headers[0]
 
         self.headers = OrderedDict()
@@ -19,8 +19,7 @@ class Request:
                 self.headers[k] = v
 
         if len(req) > 1:
-            req = byteRequest.decode("utf_8")
-            self.body = req[req.index("\r\n\r\n")+4::]
+            self.body = req[1]
     
     def getStartLine(self):
         return self.startLine
