@@ -1,9 +1,9 @@
 import socketserver
 import sys
-from Response import Response
 from Request import Request
 from WebSocket import WebSocket
 from routes.Route import Route
+from routes.Routes import routes
 
 # Note: Handles TCP connections (request and response)
 class MyTCPHandler(socketserver.BaseRequestHandler):
@@ -16,9 +16,15 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             response = Route.getFileDynamically(request)
             return self.request.sendall(response)
         
+        for route in routes:
+            if route.match(request):
+                response = route.getResponse(request)
+                return self.request.sendall(response)
+
+        # TODO: Return 404 if no routes match
 
         # Websocket
-        if "Upgrade" in request.getHeaders() and request.getHeaders()["Upgrade"] == "websocket":
+        if "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
             print("---------------- WebSocket Zone ----------------")
             request = ""
             while True:
