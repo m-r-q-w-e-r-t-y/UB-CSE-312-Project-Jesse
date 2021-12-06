@@ -19,7 +19,7 @@ class Request:
 
         if "Content-Length" in self.headers and "Content-Type" in self.headers and "multipart/form-data" in self.headers["Content-Type"]:
             bytes_needed = int(self.headers["Content-Length"])
-            bytes_received = len(data) - len(data.split(b'\r\n\r\n')[0])
+            bytes_received = len(data) - len(data.split(b'\r\n\r\n',1)[0])
             while bytes_received < bytes_needed:
                 buffer_chunk = server.request.recv(1024)
                 if not buffer_chunk:
@@ -31,9 +31,6 @@ class Request:
         self.path = path
         self.body = data.split(b'\r\n\r\n',1)[1]
     
-    def getHeaders(self):
-        return self.headers.keys()
-
     def toString(self):
         return {
             "Http Request Type": self.req_type,
