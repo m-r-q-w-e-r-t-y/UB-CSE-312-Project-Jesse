@@ -18,47 +18,22 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     info = db["clients"]
 
     def handle(self):
-        all_request = []
 
         data = self.request.recv(1024)
 
-        if b'Content-Type' in data:
-            content_length = ''
-
-            splitRequest = data.splitlines()
-
-            for i in splitRequest:
-                if 'Content-Length' in i.decode('utf-8'):
-                    content_length += i.decode('utf-8')
-
-            content_length = content_length.split(' ')[1]
-
-            for i in range(0, math.ceil(int(content_length) / 1024)):
-                all_request.append(self.request.recv(1024))
-
-            data += b''.join(all_request)
-
-        print("Request\n-----------------------------------")
-        print(data)
-        print("-----------------------------------")
-
         # HTTP
         request = Request(data)
+
+        if "Content-Length" in request.getHeaders():
+            content_length = int(request.getHeaders()["Content-Length"])
+            while len(data) < content_length:
+                buffer_chunk = self.request.recv(1024)
+                if not buffer_chunk:
+                    break
+                data += buffer_chunk
+        
         response = Response(request, self.info)
         self.request.sendall(response.getResponse())
-        print(request.toString())
-        sys.stdout.flush()
-        print(response.toString())
-        sys.stdout.flush()
-
-        # if self.info.count_documents(response.returnUser()) == 0:
-        #         self.info.insert_one(returnUser)
-
-        # print("Mongo")
-        # collection = self.info.find({})
-        # for document in collection:
-        #     pprint(document)
-
 
         # Websocket
         if "Upgrade" in request.getHeaders() and request.getHeaders()["Upgrade"] == "websocket":
