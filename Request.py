@@ -5,6 +5,7 @@ class Request:
     path: str = None
     headers: dict = {}
     body: bytes = None
+    form: dict = None
 
     def __init__(self, server: socketserver.BaseRequestHandler):
         data = server.request.recv(1024)
@@ -25,7 +26,7 @@ class Request:
                     break
                 data += buffer_chunk
                 bytes_received += len(buffer_chunk)
-        
+            self.form = self.parseMultipartForm(data)
         self.req_type = req_type
         self.path = path
         self.body = data.split(b'\r\n\r\n',1)[1]
@@ -40,3 +41,13 @@ class Request:
             "Headers": self.headers,
             "Body": self.body
         }
+    def parseMultipartForm(self,data: bytes):
+        boundary = data.split(b'Content-Type: multipart/form-data; boundary=')[1]
+        boundary = b'--' + boundary.split(b'\r\n')[0]
+        form_body = data.split(boundary)[1:-1]
+        form = {}
+        for field in form_body:
+            name = field.split(b'"')[1].decode("utf-8")
+            value = field.split(b'\r\n')[-2]
+            form[name] = value
+        return form
