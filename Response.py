@@ -151,7 +151,7 @@ class Response:
     #         self.headers += "Content-Length: {}\r\n".format(byteLength)
     #         self.headers += "X-Content-Type-Options: nosniff\r\n"
     #         self.headers += "\r\n"
-            
+    #
     #         self.body = "{}".format(fileBytes.decode("utf-8"))
 
 
@@ -283,10 +283,25 @@ class Response:
         file = url.pop()
         return file
 
+    def handleForms(self, fullFormRequest, boundary):
+        userInputBlocks = fullFormRequest.split(boundary.decode('utf-8'))
+        
+        username = userInputBlocks[1].replace("\\r\\n", "split-part").split('split-part')[3]
+        password = userInputBlocks[2].replace("\\r\\n", "split-part").split('split-part')[3]
+        confirm_password = userInputBlocks[3].replace("\\r\\n", "split-part").split('split-part')[3]
+        image = userInputBlocks[4].replace("\\r\\n", "split-part").split('split-part')[3]
 
+        username = self.escapeHTML(username)
+        password = self.escapeHTML(password)
+        confirm_password = self.escapeHTML(confirm_password)
 
+        return username, password, confirm_password, image
 
-
+    def escapeHTML(self, input):
+        input = input.replace('&', '&amp;')
+        input = input.replace('<', '&lt;')
+        input = input.replace('>', '&gt;')
+        return input
 
 # Testing suite
 # statusCode = "200"

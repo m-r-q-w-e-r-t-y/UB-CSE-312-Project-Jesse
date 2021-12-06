@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="main.css"/>
+    <link rel="stylesheet" href="main.css" />
+    <script type="text/javascript" src="./utils.js"></script>
+    <script type="text/javascript" src="./signup.js"></script>
+    <title>Sign Up</title>
   </head>
   <body>
-    <title>Sign Up</title>
-
     <div class="form-container">
       <h1 class="form-header">Sign Up</h1>
-
       <div class="form">
-        <form action="/signup" method="POST">
+        <form>
           <span>
             <label for="username-input">Username:</label>
             <input
@@ -21,7 +21,6 @@
               name="username"
               id="username-input"
               placeholder="Username"
-              onchange="formValidate()"
               required
             />
           </span>
@@ -32,7 +31,6 @@
               name="password"
               id="password-input"
               placeholder="Password"
-              onkeyup="formValidate()"
               required
             />
           </span>
@@ -43,7 +41,6 @@
               name="confirm-password"
               id="confirm-password-input"
               placeholder="Confirm Password"
-              onkeyup="formValidate()"
               required
             />
           </span>
@@ -57,17 +54,20 @@
               required
             />
           </span>
-          <input type="submit" name="signup" id="signup-input" value="Signup" />
+          <input type="button" onclick="submitSignupForm()" value="Signup" />
         </form>
-        <span class="error-message" id="error-message" style="color: red"></span>
+        <span
+          class="error-message"
+          id="error-message"
+          style="color: red"
+        ></span>
         <div class="navigate-other-form">
           <sub> Already have an account ? Click below to Login </sub>
           <button>
-            <a href="login.html">Login</a>
+            <a href="/login">Login</a>
           </button>
         </div>
       </div>
     </div>
-    <script src="{{url_for('static', filename='js/signup.js')}}"></script>
   </body>
 </html>

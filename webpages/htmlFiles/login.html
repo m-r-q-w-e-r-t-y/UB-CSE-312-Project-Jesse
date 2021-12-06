@@ -2,17 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="main.css"/>
-    <!-- <script type="text/javascript" src="login.js"></script>  </head> -->
-  <body>
+    <link rel="stylesheet" href="main.css" />
+    <script type="text/javascript" src="./login.js"></script>
+    <script type="text/javascript" src="./utils.js"></script>
     <title>Login</title>
+  </head>
+  <body>
     <div class="form-container">
       <h1 class="form-header">Login</h1>
-
       <div class="form">
-        <form action="/lobby.html" method="POST">
+        <form>
           <span>
             <label for="username-input">Username:</label>
             <input
@@ -31,12 +32,12 @@
               placeholder="Password"
             />
           </span>
-          <input type="submit" name="login" id="login-input" value="Login" />
+          <input type="button" onclick="submitLoginForm()" value="Login" />
         </form>
         <div class="navigate-other-form">
           <sub> New User ? Click below to Signup </sub>
           <button>
-            <a href="signup.html">Signup</a>
+            <a href="/signup">Signup</a>
           </button>
         </div>
       </div>
