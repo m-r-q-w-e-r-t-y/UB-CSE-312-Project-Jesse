@@ -5,6 +5,7 @@ from WebSocketHandler import WebSocketHandler
 from WebSocketParser import WebSocketParser
 from routes.Route import Route
 from routes.Routes import routes
+from db_init import User
 
 
 # Note: Handles TCP connections (request and response)
@@ -30,14 +31,26 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         # Websocket
         if "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
             print("---------------- WebSocket Zone ----------------")
+
+            currentUser = None
             while True:
                 try:
                     requestFrame = self.request.recv(1024)
                     parser = WebSocketParser(bytearray(requestFrame))
                     payload = parser.getPayload()
+
+                    # Setting user as logged in
+                    if "authToken" in payload:
+                        userRecord = User.getUserRecordByAuthToken(payload["authToken"])
+                        currentUser = userRecord["username"]
+                        User.updateLoggedInByUsername(True, currentUser)
+
                     handler = WebSocketHandler(payload)
                     self.request.sendall(handler.getFrame())
                 except:
+                    
+                    # Signing user off
+                    User.updateLoggedInByUsername(False,currentUser)
                     break
             print("------------------------------------------------")
 

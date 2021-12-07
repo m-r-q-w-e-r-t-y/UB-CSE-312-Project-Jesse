@@ -19,7 +19,7 @@ class UserDatabase:
     def createUserTable(self):
         cursor = self.connection.cursor()
         cursor.execute(
-            "CREATE TABLE IF NOT EXISTS user (userId INT AUTO_INCREMENT, username TEXT NOT NULL, hashedPassword TEXT NOT NULL, profilePicPath TEXT NOT NULL, authToken TEXT, primary key (userId))")
+            "CREATE TABLE IF NOT EXISTS user (userId INT AUTO_INCREMENT, username TEXT NOT NULL, hashedPassword TEXT NOT NULL, profilePicPath TEXT NOT NULL, authToken TEXT, loggedIn BOOLEAN, primary key (userId))")
         print("Successfully created user Table!")
 
     # Used to drop user Table
@@ -31,8 +31,8 @@ class UserDatabase:
     # Used to insert into user Table
     def insertUser(self, username, password, profilePicPath):
         cursor = self.connection.cursor()
-        sqlQuery = "INSERT INTO user (username, hashedPassword, profilePicPath) VALUES (%s, %s, %s)"
-        sqlValues = (username, password, profilePicPath)
+        sqlQuery = "INSERT INTO user (username, hashedPassword, profilePicPath, loggedIn) VALUES (%s, %s, %s, %s)"
+        sqlValues = (username, password, profilePicPath, False)
         cursor.execute(sqlQuery, sqlValues)
         self.connection.commit()
         print("Successfully inserted user into user Table!")
@@ -55,6 +55,7 @@ class UserDatabase:
                 userMap["password"] = row[2]
                 userMap["profilePicPath"] = row[3]
                 userMap["authToken"] = row[4]
+                userMap["loggedIn"] = row[5]
                 records.append(userMap)
             return records
 
@@ -79,6 +80,7 @@ class UserDatabase:
             userMap["password"] = row[2]
             userMap["profilePicPath"] = row[3]
             userMap["authToken"] = row[4]
+            userMap["loggedIn"] = row[5]
             return userMap
 
         print(username + "'s record was not found from user Table!")
@@ -102,6 +104,7 @@ class UserDatabase:
             userMap["password"] = row[2]
             userMap["profilePicPath"] = row[3]
             userMap["authToken"] = row[4]
+            userMap["loggedIn"] = row[5]
             return userMap
 
         print("No record was found from given authToken user Table!")
@@ -156,6 +159,15 @@ class UserDatabase:
         self.connection.commit()
         print("Successfully updated " + username + "'s authToken from user Table!")
 
+    # Used to update the loggedIn of username
+    def updateLoggedInByUsername(self, logInStatus, username):
+        cursor = self.connection.cursor()
+        sqlQuery = "UPDATE user SET loggedIn = %s WHERE username = %s"
+        sqlValues = (logInStatus, username)
+        cursor.execute(sqlQuery, sqlValues)
+        self.connection.commit()
+        print("Successfully updated " + username + "'s loggIn status from user Table!")
+
     # Used to delete record from user table by username
     def deleteUserByName(self, username):
         cursor = self.connection.cursor()
@@ -165,12 +177,12 @@ class UserDatabase:
         self.connection.commit()
         print("Successfully deleted " + username + "'s record from user Table!")
 
-    # Retrieve all usernames from user table, output excludes the username given in parameter
-    def getAllUsernames(self, username):
+    # Retrieve all usernames of logged in users from user table, output excludes the username given in parameter
+    def getLoggedInUsers(self, username):
         records = self.selectAllUser()
         allUsers = []
 
         for userData in records:
-            if userData["username"] != username:
+            if userData["username"] != username and userData["loggedIn"]:
                 allUsers.append(userData["username"])
         return allUsers
