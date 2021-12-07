@@ -14,6 +14,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     def handle(self):
         # HTTP
         request = Request(self)
+        print(f'{request.req_type} {request.path}')
 
         if Route.fileRequested(request):
             response = Route.getFileDynamically(request)
@@ -53,9 +54,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     User.updateLoggedInByUsername(False,currentUser)
                     break
             print("------------------------------------------------")
-
-        print("-------")
-        # TODO: Return 404 if no routes match
+        
+        return self.request.sendall(Route.buildResponse(404,{"Content-Type":"text/plain"},b'Invalid API call'))
 
 
 if __name__ == "__main__":
