@@ -1,13 +1,40 @@
 // Establish a WebSocket connection with the server
 const socket = new WebSocket('ws://' + window.location.host + '/websocket');
 
-// Call the addMessage function whenever data is received from the server over the WebSocket
-socket.onmessage = getOnlineUsers;
-
 let actionOnlineUser = "ONLINE_USERS";
+let actionGetUsername = "GET_USERNAME";
+
+// Once socket is open, getUsername will be called
+socket.addEventListener('open', function(){getUsername()});
+
+function getUsername() {
+
+    if (checkACookieExists("authToken")) {
+        socket.onmessage = populateUsername;
+        let authToken = getCookie("authToken")
+        let request = {webSocketAction: actionGetUsername, "authToken": authToken};
+        socket.send(JSON.stringify(request));
+    }
+}
+
+function populateUsername(message) {
+     document.getElementById("username").innerHTML= JSON.parse(message.data);
+}
+
+function checkACookieExists(cookieName) {
+    if (document.cookie.split(';').some((item) => item.trim().startsWith(cookieName+'='))) {
+      return true
+    }
+    return false
+}
+
+function getCookie(cookieName) {
+    return document.cookie.split('; ').find(row => row.startsWith(cookieName+'=')).split('=')[1];
+}
 
 function getOnlineUsers() {
-    let request = {webSocketAction:actionOnlineUser};
+    let username = document.getElementById("username").innerHTML
+    let request = {webSocketAction:actionOnlineUser, "username": username};
     socket.send(JSON.stringify(request));
     socket.onmessage = addOnlineUsers;
 }
@@ -72,30 +99,30 @@ function openChat(user) {
 }
 
 
-function playGame() {
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-       if (this.readyState === 4 && this.status === 200){
-          console.log(this.response)
-       }
-    }
-
-    // For security purposes, use a POST request
-    request.open("GET", "/tictactoe");
-    // request.send(jsonData);
-}
-
-if(window.attachEvent) {
-    window.attachEvent('onload', playGame());
-} else {
-    if(window.onload) {
-        var curronload = window.onload;
-        var newonload = function(evt) {
-            curronload(evt);
-            yourFunctionName(evt);
-        };
-        window.onload = newonload;
-    } else {
-        window.onload = playGame();
-    }
-}
+// function playGame() {
+//     var request = new XMLHttpRequest();
+//     request.onreadystatechange = function() {
+//        if (this.readyState === 4 && this.status === 200){
+//           console.log(this.response)
+//        }
+//     }
+//
+//     // For security purposes, use a POST request
+//     request.open("GET", "/tictactoe");
+//     // request.send(jsonData);
+// }
+//
+// if(window.attachEvent) {
+//     window.attachEvent('onload', playGame());
+// } else {
+//     if(window.onload) {
+//         var curronload = window.onload;
+//         var newonload = function(evt) {
+//             curronload(evt);
+//             yourFunctionName(evt);
+//         };
+//         window.onload = newonload;
+//     } else {
+//         window.onload = playGame();
+//     }
+// }

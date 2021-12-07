@@ -18,7 +18,7 @@ class WebSocketHandler:
         for socket in sockets:
             if socket.match(self.action):
                 if socket.requiresData():
-                    response = socket.getResponse(self.dataReceived)
+                    response = socket.getReply(self.dataReceived)
                     self.frame = WebSocketPacker.packFrame(response)
                     return
                 self.frame = WebSocketPacker.packFrame(socket.getResponse())

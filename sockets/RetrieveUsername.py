@@ -2,7 +2,7 @@ from sockets.Socket import Socket
 from db_init import User
 
 
-class OnlineUsers(Socket):
+class RetrieveUsername(Socket):
 
     def __init__(self, webSocketAction):
         super().__init__(webSocketAction)
@@ -11,4 +11,9 @@ class OnlineUsers(Socket):
         return True
 
     def getReply(self, data):
-        return User.getAllUsernames(data["username"])
+        authToken = data["authToken"]
+        username = User.getUsernameByAuthToken(authToken)
+        if username:
+            return username
+        else:
+            return "Unknown"

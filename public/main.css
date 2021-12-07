@@ -6,9 +6,13 @@ body {
     width: 66.6vw;
     margin: 0 auto;
   }
-  
-  .form-header {
+
+  .title-header {
     text-align: center;
+  }
+  
+  .greeting-header {
+    display: inline-block;
   }
   
   .form {
