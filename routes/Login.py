@@ -24,7 +24,7 @@ class Login(Route):
             auth_token = genAlphanumeric()
             hashed_auth_token = bcrypt.hashpw(auth_token.encode(),bcrypt.gensalt())
             User.updateAuthTokenByUsername(hashed_auth_token.decode("utf-8"),username)
-            return Route.buildResponse(200,{"Content-Type":"text/plain", "Set-Cookie": f'authToken={auth_token};Max-Age=3600;HttpOnly'},b'Logged in with authToken '+auth_token.encode())
+            return Route.buildResponse(301,{"Set-Cookie": f'authToken={auth_token};Max-Age=3600;HttpOnly',"Location": "/lobby.html"},b'')
 
         elif request.req_type == "GET":
             try:
