@@ -21,8 +21,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 response = route.getResponse(request)
                 return self.request.sendall(response)
 
-        # TODO: Return 404 if no routes match
-
         # Websocket
         if "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
             print("---------------- WebSocket Zone ----------------")
@@ -42,6 +40,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             print("------------------------------------------------")
 
         print("-------")
+        # TODO: Return 404 if no routes match
 
 if __name__ == "__main__":  
     print("\n")

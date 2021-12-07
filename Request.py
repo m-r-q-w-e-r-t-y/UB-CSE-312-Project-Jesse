@@ -45,6 +45,9 @@ class Request:
         form = {}
         for field in form_body:
             name = field.split(b'"')[1].decode("utf-8")
+            if name == 'avatar':
+                filetype = field.split(b'"')[3].decode("utf-8").split(".")[-1]
+                form["file-type"] = filetype
             value = field.split(b'\r\n')[-2]
             form[name] = value
         return form
