@@ -23,8 +23,11 @@ class Signup(Route):
 
             return Route.buildResponse(200,{"Content-Type":"text/plain"},b'Account created')
         elif request.req_type == "GET":
-            f = open("./public/signup.html", "rb")
-            file = f.read()
-            file_length = str(len(file))
+            try:
+                f = open("./public/signup.html", "rb")
+                file = f.read()
+                file_length = str(len(file))
 
-            return Route.buildResponse(200,{"Content-Type":"text/html","X-Content-Type-Options":"nosniff","Content-Length":file_length},file)
+                return Route.buildResponse(200,{"Content-Type":"text/html"},file)
+            except Exception:
+                return Route.buildResponse(500, {"Content-Type":"text/plain"},b'Internal Sever Error')
