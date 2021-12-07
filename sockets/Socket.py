@@ -17,7 +17,6 @@ class Socket:
         # Define in child class
         pass
 
-    @staticmethod
-    def getResponse(data):
+    def getReply(self, data):
         # Define in child class
         pass
