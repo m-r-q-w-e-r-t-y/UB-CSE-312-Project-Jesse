@@ -9,6 +9,15 @@ class Request:
 
     def __init__(self, server: socketserver.BaseRequestHandler):
         data = server.request.recv(1024)
+
+        # Reset all object properties on receiving new request
+        self.req_type = None
+        self.path = None
+        self.headers = {}
+        self.body = None
+        self.form = None
+
+
         headers = data.split(b'\r\n\r\n',1)[0]
         headers = headers.decode("utf-8").split("\r\n")
         startline = headers[0]
@@ -16,12 +25,11 @@ class Request:
         for header in headers[1:]:
             key,val = header.split(": ")
             self.headers[key] = val
-
         if "Content-Length" in self.headers and "Content-Type" in self.headers and "multipart/form-data" in self.headers["Content-Type"]:
             bytes_needed = int(self.headers["Content-Length"])
             bytes_received = len(data) - len(data.split(b'\r\n\r\n',1)[0])
             while bytes_received < bytes_needed:
-                buffer_chunk = server.request.recv(1024)
+                buffer_chunk = server.request.recv(min(1024,bytes_needed-bytes_received))
                 if not buffer_chunk:
                     break
                 data += buffer_chunk
