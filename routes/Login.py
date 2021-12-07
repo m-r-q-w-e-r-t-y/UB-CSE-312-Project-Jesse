@@ -3,6 +3,7 @@ from Request import Request
 from db_init import User
 import bcrypt
 from routes.utility_functions import genAlphanumeric
+from constants import auth_token_salt
 
 class Login(Route):
     def __init__(self, path, methods) -> None:
@@ -22,7 +23,7 @@ class Login(Route):
                 return Route.buildResponse(401, {"Content-Type": "text/plain"},b'Username or password incorrect')
 
             auth_token = genAlphanumeric()
-            hashed_auth_token = bcrypt.hashpw(auth_token.encode(),bcrypt.gensalt())
+            hashed_auth_token = bcrypt.hashpw(auth_token.encode(),auth_token_salt)
             User.updateAuthTokenByUsername(hashed_auth_token.decode("utf-8"),username)
             return Route.buildResponse(301,{"Set-Cookie": f'authToken={auth_token};Max-Age=3600;HttpOnly',"Location": "/lobby.html"},b'')
 

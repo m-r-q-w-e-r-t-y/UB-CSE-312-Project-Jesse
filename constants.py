@@ -17,3 +17,5 @@ MIME_Types = {
     "png": "image/png",
     "jpg": "image/jpeg",
 }
+
+auth_token_salt = b'$2b$12$4KqT/W9h.OA08NfTfhg28eSHHNvVkx93X9s1Vc/w1rPzTu0ab6qZa'
