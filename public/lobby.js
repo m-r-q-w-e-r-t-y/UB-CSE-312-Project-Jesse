@@ -50,9 +50,17 @@ function openForm(contacts) {
     let messengerContent = '<button class="close-messaging-tab" onclick="closeForm()" >Messages</button>' +
         '<div class="user-container">';
 
-    contacts.forEach(user => {
+    if(contacts.length>0) {
+        contacts.forEach(user => {
         messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="openChat(this.id)" ><p class="center-user-name">'+user+'</p></div>';
-    })
+        })
+    }
+    else {
+        messengerContent=messengerContent+"<h4 class=\"none-online\" >No users are online!</h4>"
+    }
+    // contacts.forEach(user => {
+    //     messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="openChat(this.id)" ><p class="center-user-name">'+user+'</p></div>';
+    // })
     messengerContent = messengerContent + '</div>';
 
     document.getElementById("messenger").innerHTML=messengerContent;
@@ -97,32 +105,3 @@ function openChat(user) {
 
     document.getElementById("messenger").innerHTML=chatContent;
 }
-
-
-// function playGame() {
-//     var request = new XMLHttpRequest();
-//     request.onreadystatechange = function() {
-//        if (this.readyState === 4 && this.status === 200){
-//           console.log(this.response)
-//        }
-//     }
-//
-//     // For security purposes, use a POST request
-//     request.open("GET", "/tictactoe");
-//     // request.send(jsonData);
-// }
-//
-// if(window.attachEvent) {
-//     window.attachEvent('onload', playGame());
-// } else {
-//     if(window.onload) {
-//         var curronload = window.onload;
-//         var newonload = function(evt) {
-//             curronload(evt);
-//             yourFunctionName(evt);
-//         };
-//         window.onload = newonload;
-//     } else {
-//         window.onload = playGame();
-//     }
-// }

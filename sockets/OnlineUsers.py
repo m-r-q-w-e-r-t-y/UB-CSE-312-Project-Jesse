@@ -11,4 +11,4 @@ class OnlineUsers(Socket):
         return True
 
     def getReply(self, data):
-        return User.getAllUsernames(data["username"])
+        return User.getLoggedInUsers(data["username"])
