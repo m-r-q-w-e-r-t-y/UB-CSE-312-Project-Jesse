@@ -9,4 +9,8 @@ class Login(Route):
         if request.req_type == "POST":
             return Route.buildResponse()
         elif request.req_type == "GET":
-            return Route.getFileDynamically(request)
+            f = open("./public/login.html", "rb")
+            file = f.read()
+            file_length = str(len(file))
+
+            return Route.buildResponse(200,{"Content-Type":"text/html","X-Content-Type-Options":"nosniff","Content-Length":file_length},file)
