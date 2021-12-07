@@ -82,7 +82,7 @@ class UserDatabase:
             return userMap
 
         print(username + "'s record was not found from user Table!")
-        return {}
+        return None
 
     # Used to retrieve record of user specified by token
     def getUserRecordByAuthToken(self, authToken):

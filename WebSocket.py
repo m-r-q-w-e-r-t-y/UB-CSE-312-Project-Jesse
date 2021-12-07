@@ -1,8 +1,4 @@
-from htmlreplace import htmlreplace
-import pymongo
-
 import json
-
 
 class WebSocket:
     frame = None
@@ -70,10 +66,7 @@ class WebSocket:
     def dictionary(self):
         return json.loads(self.replaceHTML().decode("utf-8"))
 
-    def printdb(self):
-        i = info.find({})
-        for d in i:
-            pprint(d)
+
 
 
 

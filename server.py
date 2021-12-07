@@ -1,46 +1,28 @@
 import socketserver
 import sys
-import pymongo
-import math
-from Response import Response
 from Request import Request
 from WebSocket import WebSocket
-from pprint import pprint
-from FormParser import formParser
-
+from routes.Route import Route
+from routes.Routes import routes
 
 # Note: Handles TCP connections (request and response)
 class MyTCPHandler(socketserver.BaseRequestHandler):
 
-    clients = []
-    counter = 0
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["database"]
-    info = db["clients"]
-
     def handle(self):
-
-        data = self.request.recv(1024)
-
         # HTTP
-        request = Request(data)
+        request = Request(self)
 
-        if "Content-Length" in request.getHeaders() and "Content-Type" in request.getHeaders() and "multipart/form-data" in request.getHeaders()["Content-Type"]:
-            bytes_needed = int(request.getHeaders()["Content-Length"])
-            bytes_received = len(data) - len(data.split(b'\r\n\r\n')[0])
-            while bytes_received < bytes_needed:
-                buffer_chunk = self.request.recv(1024)
-                if not buffer_chunk:
-                    break
-                data += buffer_chunk
-                bytes_received += len(buffer_chunk)
-            form = formParser(data)
-            request = Request(data)
-        response = Response(request, self.info)
-        self.request.sendall(response.getResponse())
+        if Route.fileRequested(request):
+            response = Route.getFileDynamically(request)
+            return self.request.sendall(response)
+        
+        for route in routes:
+            if route.match(request):
+                response = route.getResponse(request)
+                return self.request.sendall(response)
 
         # Websocket
-        if "Upgrade" in request.getHeaders() and request.getHeaders()["Upgrade"] == "websocket":
+        if "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
             print("---------------- WebSocket Zone ----------------")
             request = ""
             while True:
@@ -58,6 +40,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             print("------------------------------------------------")
 
         print("-------")
+        # TODO: Return 404 if no routes match
 
 if __name__ == "__main__":  
     print("\n")
