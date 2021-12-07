@@ -9,8 +9,17 @@ class Signup(Route):
     def __init__(self, path, methods) -> None:
         super().__init__(path, methods)
 
-    def getResponse(self, request: Request) -> bytes:   
-        if request.req_type == "POST":
+    def getResponse(self, request: Request) -> bytes:  
+        if request.req_type == "GET":
+            try:
+                f = open("./public/signup.html", "rb")
+                file = f.read()
+
+                return Route.buildResponse(200,{"Content-Type":"text/html"},file)
+            except Exception:
+                return Route.buildResponse(500, {"Content-Type":"text/plain"},b'Internal Sever Error')
+
+        elif request.req_type == "POST":
             form = request.form
             if ("username" not in form or 
                 "password" not in form or 
