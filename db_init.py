@@ -1,3 +1,3 @@
-from database import UserDatabase, ChatDatabase
+from database.UserDatabase import UserDatabase
 
 User = UserDatabase()

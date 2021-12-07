@@ -203,6 +203,7 @@ body {
     right: 15px;
     border: 1px solid black;
     z-index: 9;
+    min-height: 275px;
   }
 
   .chat-container {
