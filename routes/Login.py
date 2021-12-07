@@ -8,5 +8,5 @@ class Login(Route):
     def getResponse(self, request: Request):
         if request.req_type == "POST":
             return Route.buildResponse()
-
-        
+        elif request.req_type == "GET":
+            return Route.getFileDynamically(request)

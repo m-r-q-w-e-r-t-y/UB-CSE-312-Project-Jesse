@@ -22,3 +22,5 @@ class Signup(Route):
                 return Route.buildResponse(400,{"Content-Type":"text/plain"},b'Submitted file must be an image')
 
             return Route.buildResponse(200,{"Content-Type":"text/plain"},b'Account created')
+        elif request.req_type == "GET":
+            return Route.getFileDynamically(request)
