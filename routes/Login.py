@@ -12,7 +12,6 @@ class Login(Route):
             try:
                 f = open("./public/login.html", "rb")
                 file = f.read()
-                file_length = str(len(file))
 
                 return Route.buildResponse(200, {"Content-Type": "text/html"}, file)
             except Exception:

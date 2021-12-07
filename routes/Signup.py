@@ -26,7 +26,6 @@ class Signup(Route):
             try:
                 f = open("./public/signup.html", "rb")
                 file = f.read()
-                file_length = str(len(file))
 
                 return Route.buildResponse(200,{"Content-Type":"text/html"},file)
             except Exception:
