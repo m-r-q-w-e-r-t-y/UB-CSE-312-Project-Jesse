@@ -4,14 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="main.css"/>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <!-- <script src="/lobby.js"></script> -->
   </head>
   <body>
     <title>Game Lobby</title>
     <div class="form-container">
-        <div class="title-header" id = "main-header">
-            <h1 class="greeting-header"> Welcome&nbsp:&nbsp<h1 class="greeting-header" id="username"></h1></h1>
-        </div>
+      <div class="title-header" id="main-header">
+        <h1 class="greeting-header">
+          Welcome&nbsp:&nbsp{{username}}
+          <h1 class="greeting-header" id="username"></h1>
+        </h1>
+        <img src="{{profile_pic_path}}" />
+      </div>
 
       <div class="game-container">
         <div id="Canvas" class="game-card">
@@ -21,15 +26,17 @@
             </div>
             <div class="game-card-back pasty-red">
               <h2>Canvas</h2>
-              <p><strong>How to play:</strong>
-                Draw anything you want with your friends.
-                Send your friend a message in ink.
-                Challenge your friends to a drawing challenge.
-                Play Tic Tac Toe with your friends.
-                Draw to your heart's content.
+              <p>
+                <strong>How to play:</strong>
+                Draw anything you want with your friends. Send your friend a
+                message in ink. Challenge your friends to a drawing challenge.
+                Play Tic Tac Toe with your friends. Draw to your heart's
+                content.
               </p>
 
-              <p><strong>Requirement:</strong> Exactly 2 Players are required </p>
+              <p>
+                <strong>Requirement:</strong> Exactly 2 Players are required
+              </p>
             </div>
           </div>
         </div>
@@ -73,7 +80,7 @@
             </div>
           </div>
         </div>
-        <div id="ComingSoon5"class="game-card">
+        <div id="ComingSoon5" class="game-card">
           <div class="game-card-inner">
             <div class="game-card-front purple">
               <h1 class="center-gameCard-text">Coming Soon</h1>
@@ -85,22 +92,21 @@
         </div>
       </div>
 
-      <button class="open-messaging-tab" onclick="getOnlineUsers()">Messages</button>
+      <button class="open-messaging-tab" onclick="getOnlineUsers()">
+        Messages
+      </button>
       <div class="popup-messenger" id="messenger">
-      <h3>Chat</h3>
-      <label for="chat-name">Name: </label>
-      <input id="chat-name" type="text" name="name">
-      <br/>
-      <label for="chat-comment">Comment: </label>
-      <input id="chat-comment" type="text" name="comment">
+        <h3>Chat</h3>
+        <label for="chat-name">Name: </label>
+        <input id="chat-name" type="text" name="name" />
+        <br />
+        <label for="chat-comment">Comment: </label>
+        <input id="chat-comment" type="text" name="comment" />
 
-      <button onclick="sendMessage()">Chat</button>
+        <button onclick="sendMessage()">Chat</button>
 
-      
-      <div id="chat"></div>
-
+        <div id="chat"></div>
       </div>
     </div>
-    <script src="/lobby.js"></script>
   </body>
 </html>

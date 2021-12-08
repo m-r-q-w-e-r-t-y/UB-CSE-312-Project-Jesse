@@ -11,16 +11,16 @@ def genAlphanumeric(len: int=16):
 def isAuthenticated(req: Request):
     '''
         Returns the username associated with the token.
-        If no username exists (meaning user is not authenticated) return None.
+        If no user exists (meaning user is not authenticated) return None.
     '''
     cookies = cookieParser(req)
     if 'authToken' not in cookies:
         return None
     token = cookies['authToken']
-    username = User.getUsernameByAuthToken(token) 
-    if not username:
+    user = User.getUserRecordByAuthToken(token) 
+    if not user:
         return None
-    return username
+    return user
 
 def cookieParser(req: Request):
     cookies = {}

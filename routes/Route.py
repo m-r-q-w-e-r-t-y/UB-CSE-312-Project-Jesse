@@ -51,8 +51,9 @@ class Route:
     def getFileDynamically(request: Request) -> bytes:
         filename = request.path.split("/")[-1]
         filetype = filename.split(".")[-1]
+        file_folder = "./public/" if filetype != "jpg" else "./uploads/"
         try:
-            file = open("./public/" + filename,"rb")
+            file = open(file_folder + filename,"rb")
             file = file.read()
             return Route.buildResponse(200,{ "Content-Type": f'{MIME_Types[filetype]}; charset=utf-8'},file)
 
