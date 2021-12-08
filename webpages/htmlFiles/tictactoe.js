@@ -1,129 +1,71 @@
 // Establish a WebSocket connection with the server
 const socket = new WebSocket('ws://' + window.location.host + '/websocket');
 
+const c = document.getElementById("canvas");
+c.addEventListener("mousedown", coordinates); // fires before mouse left btn is released
+c.addEventListener("mousemove", helper);
+c.addEventListener("mousemove", move);
+// c.addEventListener("mousedown", down);
+// c.addEventListener("mouseup", send);
+c.width = window.innerWidth;
+c.height = window.innerHeight;
 
 
-window.addEventListener('DOMContentLoaded', () => {
-    const tiles = Array.from(document.querySelectorAll('.tile'));
-    const playerDisplay = document.querySelector('.display-player');
-    const resetButton = document.querySelector('#reset');
-    const announcer = document.querySelector('.announcer');
+const ctx = c.getContext("2d");
 
-    let board = ['', '', '', '', '', '', '', '', ''];
-    let currentPlayer = 'X';
-    let isGameActive = true;
-
-    const PLAYERX_WON = 'PLAYERX_WON';
-    const PLAYERO_WON = 'PLAYERO_WON';
-    const TIE = 'TIE';
-
-
-    /*
-        Indexes within the board
-        [0] [1] [2]
-        [3] [4] [5]
-        [6] [7] [8]
-    */
-
-    const winningConditions = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-
-    function handleResultValidation() {
-        let roundWon = false;
-        for (let i = 0; i <= 7; i++) {
-            const winCondition = winningConditions[i];
-            const a = board[winCondition[0]];
-            const b = board[winCondition[1]];
-            const c = board[winCondition[2]];
-            if (a === '' || b === '' || c === '') {
-                continue;
-            }
-            if (a === b && b === c) {
-                roundWon = true;
-                break;
-            }
-        }
-
-    if (roundWon) {
-            announce(currentPlayer === 'X' ? PLAYERX_WON : PLAYERO_WON);
-            isGameActive = false;
-            return;
-        }
-
-    if (!board.includes(''))
-        announce(TIE);
-    }
-
-    const announce = (type) => {
-        switch(type){
-            case PLAYERO_WON:
-                announcer.innerHTML = 'Player <span class="playerO">O</span> Won';
-                break;
-            case PLAYERX_WON:
-                announcer.innerHTML = 'Player <span class="playerX">X</span> Won';
-                break;
-            case TIE:
-                announcer.innerText = 'Tie';
-        }
-        announcer.classList.remove('hide');
-    };
-
-    const isValidAction = (tile) => {
-        if (tile.innerText === 'X' || tile.innerText === 'O'){
-            return false;
-        }
-
-        return true;
-    };
-
-    const updateBoard =  (index) => {
-        board[index] = currentPlayer;
-    }
-
-    const changePlayer = () => {
-        playerDisplay.classList.remove(`player${currentPlayer}`);
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        playerDisplay.innerText = currentPlayer;
-        playerDisplay.classList.add(`player${currentPlayer}`);
-    }
-
-    const userAction = (tile, index) => {
-        if(isValidAction(tile) && isGameActive) {
-            tile.innerText = currentPlayer;
-            tile.classList.add(`player${currentPlayer}`);
-            updateBoard(index);
-            handleResultValidation();
-            changePlayer();
-        }
-    }
+function coordinates(e) {
+    const {x, y} = c.getBoundingClientRect();
+    lastX = e.clientX - x;
+    lastY = e.clientY - y;
+    console.log("x: " + lastX + " " + "y: " + lastY);
     
-    const resetBoard = () => {
-        board = ['', '', '', '', '', '', '', '', ''];
-        isGameActive = true;
-        announcer.classList.add('hide');
+    // var data = {
+    //     x: lastX,
+    //     y: lastY
+    // }
 
-        if (currentPlayer === 'O') {
-            changePlayer();
-        }
+    // socket.send(data)
+}
 
-        tiles.forEach(tile => {
-            tile.innerText = '';
-            tile.classList.remove('playerX');
-            tile.classList.remove('playerO');
-        });
+function helper(e) {
+    if (e.buttons !== 1) {
+        return; // left button is not pushed yet
     }
+    draw(e);
+}
 
-    tiles.forEach( (tile, index) => {
-        tile.addEventListener('click', () => userAction(tile, index));
-    });
+function draw(e) {
+    const {x, y} = c.getBoundingClientRect();
+    const newX = e.clientX - x;
+    const newY = e.clientY - y;
+    
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(newX, newY);
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+    ctx.closePath();
+    
+    lastX = newX;
+    lastY = newY;
+    console.log("x: " + lastX + " " + "y: " + lastY);
 
-    resetButton.addEventListener('click', resetBoard);
-});
+    var data = {
+        x: lastX,
+        y: lastY
+    }
+}
+
+function send(e) {
+    socket.send(JSON.stringify({"up":1}));
+}
+function down(e) {
+    socket.send(JSON.stringify({"down":1}));
+}
+function move(e) {
+    socket.send(JSON.stringify({"move":1}));
+}
+
+let lastX = 0;
+let lastY = 0;  
