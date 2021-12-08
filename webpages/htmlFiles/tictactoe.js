@@ -1,11 +1,16 @@
 // Establish a WebSocket connection with the server
 const socket = new WebSocket('ws://' + window.location.host + '/websocket');
 
+let isMouseDown = false;
+
 const c = document.getElementById("canvas");
-c.addEventListener("mousedown", coordinates); // fires before mouse left btn is released
-c.addEventListener("mousemove", helper);
-c.addEventListener("mousemove", move);
-// c.addEventListener("mousedown", down);
+c.addEventListener("mousedown", () => (isMouseDown = true)); // fires before mouse left btn is released
+// c.addEventListener("mousemove", helper);
+// c.addEventListener("mousemove", move);
+c.addEventListener("mousedown", () => {
+    isMouseDown = true;
+    socket.send("Clicking mouse");
+});
 // c.addEventListener("mouseup", send);
 c.width = window.innerWidth;
 c.height = window.innerHeight;
