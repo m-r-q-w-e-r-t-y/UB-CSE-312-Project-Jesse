@@ -53,7 +53,6 @@ class Signup(Route):
                 User.insertUser(username,hashed_password,new_filename)
                 return Route.buildResponse(200,{"Content-Type":"text/plain"},new_filename.encode())
             finally:
-                file.close()
                 basepath = 'uploads/'
                 print("List of images in /uploads folder:")
                 for entry in os.listdir(basepath):
