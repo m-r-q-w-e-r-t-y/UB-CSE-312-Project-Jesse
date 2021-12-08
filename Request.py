@@ -5,7 +5,7 @@ class Request:
     path: str = None
     headers: dict = {}
     body: bytes = None
-    form: dict = None
+    form: dict = {}
 
     def __init__(self, server: socketserver.BaseRequestHandler):
         data = server.request.recv(1024)
@@ -15,7 +15,7 @@ class Request:
         self.path = None
         self.headers = {}
         self.body = None
-        self.form = None
+        self.form = {}
 
 
         headers = data.split(b'\r\n\r\n',1)[0]
