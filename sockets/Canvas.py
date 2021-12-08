@@ -11,4 +11,4 @@ class Canvas(Socket):
         return True
 
     def getReply(self, data):
-        return data
+        return {'x':data['x'], 'y':data['y']}
