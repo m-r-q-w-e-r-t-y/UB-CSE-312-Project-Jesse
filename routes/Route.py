@@ -57,7 +57,7 @@ class Route:
             return Route.buildResponse(200,{ "Content-Type": f'{MIME_Types[filetype]}; charset=utf-8'},file)
 
         except Exception:
-            print(f'Error while reading file {filename}: {Exception}')
+            print(f'GIT Error while reading file {filename}: {Exception}')
             return Route.buildResponse(404,{"Content-Type":"text/plain"},b'Requested file not found')
 
     

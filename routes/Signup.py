@@ -51,10 +51,10 @@ class Signup(Route):
             else:
                 hashed_password = bcrypt.hashpw(password,bcrypt.gensalt()).decode("utf-8")
                 User.insertUser(username,hashed_password,new_filename)
-                return Route.buildResponse(200,{"Content-Type":"text/plain"},new_filename.encode())
             finally:
                 basepath = 'uploads/'
                 print("List of images in /uploads folder:")
                 for entry in os.listdir(basepath):
                     if os.path.isfile(os.path.join(basepath, entry)):
                         print(entry)
+                return Route.buildResponse(301, {"Content-Length": "0", "Location": "\login"}, new_filename.encode())

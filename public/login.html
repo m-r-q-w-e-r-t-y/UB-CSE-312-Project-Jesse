@@ -13,7 +13,7 @@
     <div class="form-container">
       <h1 class="form-header">Login</h1>
       <div class="form">
-        <form>
+        <form action="/login" id="vote-form" method="post" enctype="multipart/form-data">
           <span>
             <label for="username-input">Username:</label>
             <input
@@ -32,7 +32,7 @@
               placeholder="Password"
             />
           </span>
-          <input type="button" onclick="submitLoginForm()" value="Login" />
+          <input type="submit" value="Login" />
         </form>
         <div class="navigate-other-form">
           <sub> New User ? Click below to Signup </sub>

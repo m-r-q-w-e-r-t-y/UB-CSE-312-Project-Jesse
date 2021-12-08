@@ -13,7 +13,7 @@
     <div class="form-container">
       <h1 class="form-header">Sign Up</h1>
       <div class="form">
-        <form>
+        <form action="/signup" id="vote-form" method="post" enctype="multipart/form-data">
           <span>
             <label for="username-input">Username:</label>
             <input
@@ -54,7 +54,7 @@
               required
             />
           </span>
-          <input type="button" onclick="submitSignupForm()" value="Signup" />
+          <input type="submit" value="Signup" />
         </form>
         <span
           class="error-message"

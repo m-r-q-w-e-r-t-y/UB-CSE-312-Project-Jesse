@@ -30,7 +30,7 @@ function getProfilePic() {
 function populateProfilePic(message) {
     let profilePicPath = JSON.parse(message.data);
     console.log(profilePicPath)
-    let content = document.getElementById("main-header").innerHTML + "<img src=\""+profilePicPath+"\">"
+    let content = document.getElementById("main-header").innerHTML + "<img src="+profilePicPath+">"
     document.getElementById("main-header").innerHTML = content
 }
 
