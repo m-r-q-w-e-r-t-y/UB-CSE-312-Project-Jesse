@@ -42,15 +42,17 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     # Setting user as logged in
                     if "authToken" in payload:
                         userRecord = User.getUserRecordByAuthToken(payload["authToken"])
-                        currentUser = userRecord["username"]
-                        User.updateLoggedInByUsername(True, currentUser)
+                        if userRecord:
+                            currentUser = userRecord["username"]
+                            User.updateLoggedInByUsername(True, currentUser)
 
                     handler = WebSocketHandler(payload)
                     self.request.sendall(handler.getFrame())
                 except:
-                    
+
                     # Signing user off
-                    User.updateLoggedInByUsername(False,currentUser)
+                    if currentUser:
+                        User.updateLoggedInByUsername(False, currentUser)
                     break
             print("------------------------------------------------")
 
@@ -63,6 +65,7 @@ if __name__ == "__main__":
 
     print("Listening on Port 8080 . . .")
     sys.stdout.flush()
+    print(User.selectAllUser())
 
     HOST, PORT = "0.0.0.0", 8000
 

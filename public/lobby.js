@@ -3,9 +3,12 @@ const socket = new WebSocket('ws://' + window.location.host + '/websocket');
 
 let actionOnlineUser = "ONLINE_USERS";
 let actionGetUsername = "GET_USERNAME";
+let actionGetProfilePic = "GET_PROFILE_PIC";
 
 // Once socket is open, getUsername will be called
-socket.addEventListener('open', function(){getUsername()});
+socket.addEventListener('open', function(){
+    getUsername();
+});
 
 function getUsername() {
 
@@ -17,8 +20,24 @@ function getUsername() {
     }
 }
 
+function getProfilePic() {
+    socket.onmessage = populateProfilePic;
+    let username = document.getElementById("username").innerHTML
+    let request = {webSocketAction:actionGetProfilePic, "username": username};
+    socket.send(JSON.stringify(request));
+}
+
+function populateProfilePic(message) {
+    let profilePicPath = JSON.parse(message.data);
+    console.log(profilePicPath)
+    let content = document.getElementById("main-header").innerHTML + "<img src=\""+profilePicPath+"\">"
+    document.getElementById("main-header").innerHTML = content
+}
+
 function populateUsername(message) {
+    console.log(message.data)
      document.getElementById("username").innerHTML= JSON.parse(message.data);
+     getProfilePic();
 }
 
 function checkACookieExists(cookieName) {

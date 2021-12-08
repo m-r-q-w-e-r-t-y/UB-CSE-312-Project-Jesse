@@ -30,12 +30,15 @@ class UserDatabase:
 
     # Used to insert into user Table
     def insertUser(self, username, password, profilePicPath):
-        cursor = self.connection.cursor()
-        sqlQuery = "INSERT INTO user (username, hashedPassword, profilePicPath, loggedIn) VALUES (%s, %s, %s, %s)"
-        sqlValues = (username, password, profilePicPath, False)
-        cursor.execute(sqlQuery, sqlValues)
-        self.connection.commit()
-        print("Successfully inserted user into user Table!")
+        try:
+            cursor = self.connection.cursor()
+            sqlQuery = "INSERT INTO user (username, hashedPassword, profilePicPath, loggedIn) VALUES (%s, %s, %s, %s)"
+            sqlValues = (username, password, profilePicPath, False)
+            cursor.execute(sqlQuery, sqlValues)
+            self.connection.commit()
+            print("Successfully inserted user into user Table!")
+        except:
+            print("Unable to insert user into user Table!")
 
     # Used to retrieve all records inside user Table
     def selectAllUser(self):
@@ -108,12 +111,12 @@ class UserDatabase:
             return userMap
 
         print("No record was found from given authToken user Table!")
-        return {}
+        return None
 
     # Used to retrieve the id of username
     def getIdByUsername(self, username):
         userRecord = self.getUserRecordByName(username)
-        if bool(userRecord):
+        if userRecord:
             return userRecord["id"]
         else:
             return None
@@ -121,7 +124,7 @@ class UserDatabase:
     # Used to retrieve the password of username
     def getPasswordByUsername(self, username):
         userRecord = self.getUserRecordByName(username)
-        if bool(userRecord):
+        if userRecord:
             return userRecord["password"]
         else:
             return None
@@ -129,7 +132,7 @@ class UserDatabase:
     # Used to retrieve the authToken of username
     def getAuthTokenByUsername(self, username):
         userRecord = self.getUserRecordByName(username)
-        if bool(userRecord):
+        if userRecord:
             return userRecord["authToken"]
         else:
             return None
@@ -137,7 +140,7 @@ class UserDatabase:
     # Used to retrieve the profilePicPath of username
     def getProfilePicPathByUsername(self, username):
         userRecord = self.getUserRecordByName(username)
-        if bool(userRecord):
+        if userRecord:
             return userRecord["profilePicPath"]
         else:
             return None
@@ -145,37 +148,48 @@ class UserDatabase:
     # Used to retrieve the username of authToken
     def getUsernameByAuthToken(self, authToken):
         userRecord = self.getUserRecordByAuthToken(authToken)
-        if bool(userRecord):
+        if userRecord:
             return userRecord["username"]
         else:
             return None
 
     # Used to update the authToken of username
     def updateAuthTokenByUsername(self, authToken, username):
-        cursor = self.connection.cursor()
-        sqlQuery = "UPDATE user SET authToken = %s WHERE username = %s"
-        sqlValues = (authToken, username)
-        cursor.execute(sqlQuery, sqlValues)
-        self.connection.commit()
-        print("Successfully updated " + username + "'s authToken from user Table!")
+        try:
+            cursor = self.connection.cursor()
+            sqlQuery = "UPDATE user SET authToken = %s WHERE username = %s"
+            sqlValues = (authToken, username)
+            cursor.execute(sqlQuery, sqlValues)
+            self.connection.commit()
+            print("Successfully updated " + username + "'s authToken from user Table!")
+        except:
+            print("Unable to update " + username + "'s authToken from user Table!")
 
     # Used to update the loggedIn of username
     def updateLoggedInByUsername(self, logInStatus, username):
-        cursor = self.connection.cursor()
-        sqlQuery = "UPDATE user SET loggedIn = %s WHERE username = %s"
-        sqlValues = (logInStatus, username)
-        cursor.execute(sqlQuery, sqlValues)
-        self.connection.commit()
-        print("Successfully updated " + username + "'s loggIn status from user Table!")
+        try:
+            cursor = self.connection.cursor()
+            sqlQuery = "UPDATE user SET loggedIn = %s WHERE username = %s"
+            sqlValues = (logInStatus, username)
+            cursor.execute(sqlQuery, sqlValues)
+            self.connection.commit()
+            if logInStatus:
+                print("Successfully updated " + username + "'s loggIn status to true from user Table!")
+            print("Successfully updated " + username + "'s loggIn status to false from user Table!")
+        except:
+            print("Unable to update " + username + "'s loggIn status from user Table!")
 
     # Used to delete record from user table by username
     def deleteUserByName(self, username):
-        cursor = self.connection.cursor()
-        sqlQuery = "DELETE FROM user WHERE username = %s"
-        sqlValues = (username,)
-        cursor.execute(sqlQuery, sqlValues)
-        self.connection.commit()
-        print("Successfully deleted " + username + "'s record from user Table!")
+        try:
+            cursor = self.connection.cursor()
+            sqlQuery = "DELETE FROM user WHERE username = %s"
+            sqlValues = (username,)
+            cursor.execute(sqlQuery, sqlValues)
+            self.connection.commit()
+            print("Successfully deleted " + username + "'s record from user Table!")
+        except:
+            print("Unable to delete " + username + "'s record from user Table!")
 
     # Retrieve all usernames of logged in users from user table, output excludes the username given in parameter
     def getLoggedInUsers(self, username):
