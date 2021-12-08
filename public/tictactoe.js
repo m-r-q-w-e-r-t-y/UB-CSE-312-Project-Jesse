@@ -6,7 +6,11 @@ const context = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-context.fillStyle = "black"
+let colors = ['black', 'blue', 'red', 'pink', 'purple', 'orange', 'yellow', 'green'];
+
+context.strokeStyle = colors[Math.floor(Math.random() * colors.length)];
+
+let actionSendCanvas = "SEND_CANVAS";
 
 let mouseDown = false;
 
@@ -19,7 +23,7 @@ function startingCoordinates(e) {
     startX = e.clientX - x;
     startY = e.clientY - y;
     console.log("x: " + startX + ", y: " + startY)
-    socket.send(JSON.stringify({"x":startX, "y":startY}));
+    socket.send(JSON.stringify({"x":startX, "y":startY, webSocketAction:actionSendCanvas}));
 }
 
 function roamingCoordinates(e) {
