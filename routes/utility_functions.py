@@ -1,9 +1,7 @@
 import secrets
 import string
 from db_init import User
-import bcrypt
 from Request import Request
-from constants import auth_token_salt
 
 def genAlphanumeric(len: int=16):
     chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
@@ -19,10 +17,7 @@ def isAuthenticated(req: Request):
     if 'authToken' not in cookies:
         return None
     token = cookies['authToken']
-    if type(token) is not bytes:
-        token = token.encode()
-    hashed_token = bcrypt.hashpw(token,auth_token_salt)
-    username = User.getUsernameByAuthToken(hashed_token) 
+    username = User.getUsernameByAuthToken(token) 
     if not username:
         return None
     return username

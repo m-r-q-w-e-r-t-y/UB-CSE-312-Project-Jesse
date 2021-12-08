@@ -61,10 +61,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 
 if __name__ == "__main__":
-    print("\n")
 
     print("Listening on Port 8080 . . .")
-    sys.stdout.flush()
+   
     print(User.selectAllUser())
 
     HOST, PORT = "0.0.0.0", 8000

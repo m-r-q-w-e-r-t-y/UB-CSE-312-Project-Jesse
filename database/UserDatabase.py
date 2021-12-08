@@ -1,7 +1,8 @@
 import mysql
 import mysql.connector
 import os
-
+import bcrypt
+from constants import auth_token_salt
 
 class UserDatabase:
     connection = None
@@ -91,9 +92,12 @@ class UserDatabase:
 
     # Used to retrieve record of user specified by token
     def getUserRecordByAuthToken(self, authToken):
+        if type(authToken) is str:
+            authToken = authToken.encode()
+        hashed_auth_token = bcrypt.hashpw(authToken,auth_token_salt)
         cursor = self.connection.cursor()
         sqlQuery = "SELECT * FROM user WHERE authToken = %s"
-        sqlValues = (authToken,)
+        sqlValues = (hashed_auth_token,)
         cursor.execute(sqlQuery, sqlValues)
         result = cursor.fetchall()
 
