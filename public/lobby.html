@@ -4,15 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Game Lobby</title>
     <link rel="stylesheet" type="text/css" href="main.css"/>
   </head>
   <body>
-    <title>Game Lobby</title>
-    <div class="form-container">
-        <div class="title-header" id = "main-header">
-            <h1 class="greeting-header"> Welcome&nbsp:&nbsp<h1 class="greeting-header" id="username"></h1></h1>
+    <div class="navbar">
+        <a class="left-align">Lobby</a>
+        <div class="greeting-header" style="color: white">Welcome {{username}}</div>
+        <a class="right-align" href="http://localhost:8080/logout">Log out</a>
+        <div class="dropdown">
+            <button class="dropbtn">Change Profile Picture
+                <i class="pfp-upload"></i>
+            </button>
+            <div class="dropdown-content">
+                <a>Upload New PFP</a>
+                <button type="button">Upload</button>
+            </div>
         </div>
+    </div><br><br>
 
+    <div class="form-container">
       <div class="game-container">
         <div id="Canvas" class="game-card">
           <div class="game-card-inner">
@@ -28,8 +39,6 @@
                 Play Tic Tac Toe with your friends.
                 Draw to your heart's content.
               </p>
-
-              <p><strong>Requirement:</strong> Exactly 2 Players are required </p>
             </div>
           </div>
         </div>
