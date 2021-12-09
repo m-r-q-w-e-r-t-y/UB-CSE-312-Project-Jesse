@@ -50,12 +50,14 @@ class Request:
         boundary = data.split(b'Content-Type: multipart/form-data; boundary=')[1]
         boundary = b'--' + boundary.split(b'\r\n')[0]
         form_body = data.split(boundary)[1:-1]
-        form = {}
+        form = {"file-type":None}
         for field in form_body:
             name = field.split(b'"')[1].decode("utf-8")
-            if name == 'avatar':
+            value = field.split(b'\r\n')[-2]
+            if value == b'undefined':
+                value = None
+            if name == 'avatar' and value:
                 filetype = field.split(b'"')[3].decode("utf-8").split(".")[-1]
                 form["file-type"] = filetype
-            value = field.split(b'\r\n')[-2]
             form[name] = value
         return form

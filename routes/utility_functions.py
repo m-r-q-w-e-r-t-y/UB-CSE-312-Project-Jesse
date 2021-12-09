@@ -27,7 +27,7 @@ def cookieParser(req: Request):
     if "Cookie" not in req.headers:
         return cookies
     for cookie in req.headers["Cookie"].split("; "):
-        key, val = cookie.split("=")
+        key, val = cookie.split("=",1)
         cookies[key] = val
     return cookies
 
