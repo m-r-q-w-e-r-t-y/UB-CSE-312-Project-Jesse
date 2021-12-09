@@ -1,5 +1,4 @@
 from sockets.Socket import Socket
-from db_init import User
 
 
 class Canvas(Socket):
@@ -10,5 +9,8 @@ class Canvas(Socket):
     def requiresData(self) -> bool:
         return True
 
+    def broadcastType(self) -> str:
+        return self.ALL
+
     def getReply(self, data):
-        return {'x':data['x'], 'y':data['y']}
+        return {'x': data['x'], 'y': data['y']}

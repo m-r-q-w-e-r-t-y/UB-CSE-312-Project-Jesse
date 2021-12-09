@@ -167,7 +167,7 @@ class UserDatabase:
             self.connection.commit()
             print("Successfully updated " + username + "'s authToken from user Table!")
         except:
-            print("Unable to update " + username + "'s authToken from user Table!")
+            print("Unable to update " + str(username) + "'s authToken from user Table!")
 
     # Used to update the loggedIn of username
     def updateLoggedInByUsername(self, logInStatus, username):
@@ -179,9 +179,10 @@ class UserDatabase:
             self.connection.commit()
             if logInStatus:
                 print("Successfully updated " + username + "'s loggIn status to true from user Table!")
-            print("Successfully updated " + username + "'s loggIn status to false from user Table!")
+            else:
+                print("Successfully updated " + username + "'s loggIn status to false from user Table!")
         except:
-            print("Unable to update " + username + "'s loggIn status from user Table!")
+            print("Unable to update " + str(username) + "'s loggIn status from user Table!")
 
     # Used to delete record from user table by username
     def deleteUserByName(self, username):
@@ -193,7 +194,7 @@ class UserDatabase:
             self.connection.commit()
             print("Successfully deleted " + username + "'s record from user Table!")
         except:
-            print("Unable to delete " + username + "'s record from user Table!")
+            print("Unable to delete " + str(username) + "'s record from user Table!")
 
     # Retrieve all usernames of logged in users from user table, output excludes the username given in parameter
     def getLoggedInUsers(self, username):
