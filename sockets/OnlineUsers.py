@@ -4,11 +4,16 @@ from db_init import User
 
 class OnlineUsers(Socket):
 
+    data = None
+
     def __init__(self, webSocketAction):
         super().__init__(webSocketAction)
 
-    def requiresData(self) -> bool:
+    def requiresUsername(self) -> bool:
         return True
 
-    def getReply(self, data):
-        return User.getLoggedInUsers(data["username"])
+    def broadcastType(self) -> str:
+        return self.SELF
+
+    def getReply(self, username):
+        return User.getLoggedInUsers(username)
