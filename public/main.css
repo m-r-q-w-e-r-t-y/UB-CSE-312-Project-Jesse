@@ -7,11 +7,11 @@ body {
     margin: 0 auto;
   }
 
-  .form-container img {
+  .pfp {
     border-radius: 50%;
     position: absolute;
-    top: 3px;
-    right: 10px;
+    bottom: 3px;
+    left: 10px;
     width: 60px;
     border: 2px solid black;
   }
@@ -24,49 +24,7 @@ body {
     display: inline-block;
   }
 
-  /*.topnav {*/
-  /*  background-color: #123;*/
-  /*  overflow: hidden;*/
-  /*}*/
-
-  /*.topnav a:hover {*/
-  /*  background-color: #ddd;*/
-  /*  color: black;*/
-  /*}*/
-
-  /*.topnav a.left-align {*/
-  /*  float: left;*/
-  /*  text-align: center;*/
-  /*  padding: 14px 16px;*/
-  /*  text-decoration: none;*/
-  /*  font-size: 17px;*/
-  /*  background-color: #498AFB;*/
-  /*  color: white;*/
-  /*}*/
-
-  /*.topnav a.dropdown {*/
-  /*  float: right;*/
-  /*  text-align: center;*/
-  /*  padding: 14px 16px;*/
-  /*  text-decoration: none;*/
-  /*  font-size: 17px;*/
-  /*  background-color: #498AFB;*/
-  /*  color: white;*/
-  /*}*/
-
-  /*.topnav div {*/
-  /*  padding: 14px 16px;*/
-  /*}*/
-
-  /*.topnav a {*/
-  /*  float: right;*/
-  /*  color: #f2f2f2;*/
-  /*  text-align: center;*/
-  /*  padding: 14px 16px;*/
-  /*  text-decoration: none;*/
-  /*  font-size: 17px;*/
-  /*  background-color: #498AFB;*/
-  /*}*/
+  /* start-cite: */
 
   .navbar {
     overflow: hidden;
@@ -138,6 +96,8 @@ body {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+  /* end-cite */
 
   .form {
     border-radius: 5px;
