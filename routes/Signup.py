@@ -31,14 +31,14 @@ class Signup(Route):
 
             username = username.decode("utf-8")
 
+            if User.getUserRecordByName(username):
+                return Route.buildResponse(400,{"Content-Type":"text/plain"},b'Username already taken')
+
             if password != confirm_password:
                 return Route.buildResponse(400,{"Content-Type":"text/plain"},b'Password fields do not match')
 
             if file_type != "jpg":
                 return Route.buildResponse(400,{"Content-Type":"text/plain"},b'Submitted file must be a JPEG image')
-
-            if User.getUserRecordByName(username):
-                return Route.buildResponse(400,{"Content-Type":"text/plain"},b'Username already taken')
             
             new_filename = "uploads/" + genAlphanumeric() + ".jpg"
 
@@ -51,7 +51,7 @@ class Signup(Route):
             else:
                 hashed_password = bcrypt.hashpw(password,bcrypt.gensalt()).decode("utf-8")
                 User.insertUser(username,hashed_password,new_filename)
-                return Route.buildResponse(200,{"Content-Type":"text/plain"},new_filename.encode())
+                return Route.buildResponse(200,{"Content-Type":"text/plain"},b'Account created')
             finally:
                 basepath = 'uploads/'
                 print("List of images in /uploads folder:")

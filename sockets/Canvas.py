@@ -13,4 +13,5 @@ class Canvas(Socket):
         return self.ALL
 
     def getReply(self, data):
-        return {'x': data['x'], 'y': data['y']}
+        return {'x':data['x'], 'y':data['y']} # add "color": color
+

@@ -6,39 +6,47 @@ const context = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let colors = ['black', 'blue', 'red', 'pink', 'purple', 'orange', 'yellow', 'green'];
-
-context.strokeStyle = colors[Math.floor(Math.random() * colors.length)];
-
 let actionSendCanvas = "SEND_CANVAS";
 
 let mouseDown = false;
+let color = randomColor();
 
 canvas.addEventListener("mousedown", startingCoordinates);
 canvas.addEventListener("mousemove", roamingCoordinates);
 
-function startingCoordinates(e) {
-    mouseDown = true;
-    const {x, y} = canvas.getBoundingClientRect();
-    startX = e.clientX - x;
-    startY = e.clientY - y;
-    console.log("x: " + startX + ", y: " + startY)
-    socket.send(JSON.stringify({"x":startX, "y":startY, webSocketAction:actionSendCanvas}));
+function randomColor() {
+    let r = Math.random() * 255;
+    let g = Math.random() * 255;
+    let b = Math.random() * 255;
+    return `rgb(${r}, ${g}, ${b})`;
 }
 
-function roamingCoordinates(e) {
-    if (e.buttons !== 1) 
+socket.onmessage = function receivingData(data) {
+    roamingCoordinates(JSON.parse(data));
+}
+
+function startingCoordinates(data) {
+    mouseDown = true;
+    const {x, y} = canvas.getBoundingClientRect();
+    startX = data.clientX - x;
+    startY = data.clientY - y;
+    console.log("x: " + startX + ", y: " + startY)
+    socket.send(JSON.stringify({"x":startX, "y":startY, "color":color, webSocketAction:actionSendCanvas}));
+}
+
+function roamingCoordinates(data) {
+    if (data.buttons !== 1) 
         return;
 
     const {x, y} = canvas.getBoundingClientRect();
-    const continuousX = e.clientX - x;
-    const continuousY = e.clientY - y;
+    const continuousX = data.clientX - x;
+    const continuousY = data.clientY - y;
 
     context.beginPath();
     context.lineWidth = 5;
     context.moveTo(startX, startY);
     context.lineTo(continuousX, continuousY);
-    context.strokeStyle = 'black';
+    context.strokeStyle = color;
     context.stroke();
     context.closePath();
 
@@ -49,3 +57,8 @@ function roamingCoordinates(e) {
 
 let startX = 0;
 let startY = 0;
+
+function clearPage(e) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    socket.send("Clear Canvas")
+}
