@@ -7,7 +7,11 @@ function submitSignupForm() {
   var request = new XMLHttpRequest();
   request.open("POST", "/signup");
   request.onreadystatechange = function () {
-    if (this.readyState === 4 && this.status === 200) {
+    if (this.readyState === 4) {
+      document.getElementById("signup-form-submission-message").innerHTML =
+        this.response;
+      document.getElementById("signup-form-submission-message").style.color =
+        this.status == 200 ? "black" : "red";
       console.log(this.response);
     }
   };
