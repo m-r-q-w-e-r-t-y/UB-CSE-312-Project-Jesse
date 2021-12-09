@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-<<<<<<< HEAD
     <title>Game Lobby</title>
     <link rel="stylesheet" type="text/css" href="main.css"/>
   </head>
@@ -17,10 +16,18 @@
             <button class="dropbtn">Change Profile Picture
                 <i class="pfp-upload"></i>
             </button>
-            <div class="dropdown-content">
-                <a>Upload New PFP</a>
-                <button type="button">Upload</button>
-            </div>
+            <form>
+                <div class="dropdown-content">
+                    <label for="profile-picture-input">Choose a profile picture:</label>
+                    <input
+                      type="file"
+                      id="avatar"
+                      name="avatar"
+                      accept="image/jpeg"
+                      required
+                    />
+                </div>
+            </form>
         </div>
         <img class="pfp" src="{{profile_pic_path}}" />
     </div><br><br>
