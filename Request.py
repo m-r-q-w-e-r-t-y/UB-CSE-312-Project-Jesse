@@ -10,33 +10,22 @@ class Request:
     def __init__(self, server: socketserver.BaseRequestHandler):
         data = server.request.recv(1024)
 
-        # Reset all object properties on receiving new request
-        self.req_type = None
-        self.path = None
-        self.headers = {}
-        self.body = None
-        self.form = {}
+        self.req_type, self.path, self.headers = Request.parseHeaders(data)
 
-
-        headers = data.split(b'\r\n\r\n',1)[0]
-        headers = headers.decode("utf-8").split("\r\n")
-        startline = headers[0]
-        req_type,path,http_version = startline.split(" ")
-        for header in headers[1:]:
-            key,val = header.split(": ")
-            self.headers[key] = val
         if "Content-Length" in self.headers and "Content-Type" in self.headers and "multipart/form-data" in self.headers["Content-Type"]:
             bytes_needed = int(self.headers["Content-Length"])
             bytes_received = len(data) - len(data.split(b'\r\n\r\n',1)[0])
             while bytes_received < bytes_needed:
-                buffer_chunk = server.request.recv(min(1024,bytes_needed-bytes_received))
+                buffer_chunk = server.request.recv(1024)
                 if not buffer_chunk:
                     break
                 data += buffer_chunk
                 bytes_received += len(buffer_chunk)
-            self.form = self.parseMultipartForm(data)
-        self.req_type = req_type
-        self.path = path
+
+            # In case the headers came in chunks, re set the headers
+            self.headers = Request.parseHeaders(data)[2]
+            self.form = Request.parseMultipartForm(data)
+
         self.body = data.split(b'\r\n\r\n',1)[1]
     
     def toString(self):
@@ -46,7 +35,9 @@ class Request:
             "Headers": self.headers,
             "Body": self.body
         }
-    def parseMultipartForm(self,data: bytes):
+
+    @staticmethod
+    def parseMultipartForm(data: bytes):
         boundary = data.split(b'Content-Type: multipart/form-data; boundary=')[1]
         boundary = b'--' + boundary.split(b'\r\n')[0]
         form_body = data.split(boundary)[1:-1]
@@ -61,3 +52,15 @@ class Request:
                 form["file-type"] = filetype
             form[name] = value
         return form
+
+    @staticmethod
+    def parseHeaders(data:bytes) -> dict:
+        headers_dict = {}
+        headers = data.split(b'\r\n\r\n',1)[0]
+        headers = headers.decode("utf-8").split("\r\n")
+        startline = headers[0]
+        req_type,path,http_version = startline.split(" ")
+        for header in headers[1:]:
+            key,val = header.split(": ",1)
+            headers_dict[key] = val
+        return req_type, path, headers_dict

@@ -29,7 +29,7 @@ class ChangeProfilePic(Route):
                     file.write(new_file)
                 
                 # If file write successful, redirect user to lobby
-                return Route.buildResponse(307,{"Location":"/"},b'')
+                return Route.buildResponse(303,{"Location":"/"},b'')
             except Exception:
                 return Route.buildResponse(500,{"Content-Type":"text/plain"},b'Internal Server Error')
 
