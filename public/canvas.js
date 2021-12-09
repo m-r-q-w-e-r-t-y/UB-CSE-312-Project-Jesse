@@ -57,3 +57,8 @@ function roamingCoordinates(data) {
 
 let startX = 0;
 let startY = 0;
+
+function clearPage(e) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    socket.send("Clear Canvas")
+}
