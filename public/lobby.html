@@ -16,7 +16,7 @@
             <button class="dropbtn">Change Profile Picture
                 <i class="pfp-upload"></i>
             </button>
-            <form>
+            <form enctype="multipart/form-data" action="/change-profile-pic" method="post">
                 <div class="dropdown-content">
                     <label for="profile-picture-input">Choose a profile picture:</label>
                     <input
@@ -26,6 +26,7 @@
                       accept="image/jpeg"
                       required
                     />
+                    <input type="submit" value="Submit">
                 </div>
             </form>
         </div>
