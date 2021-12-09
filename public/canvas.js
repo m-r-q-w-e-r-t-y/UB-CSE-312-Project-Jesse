@@ -31,7 +31,7 @@ function startingCoordinates(data) {
     startX = data.clientX - x;
     startY = data.clientY - y;
     console.log("x: " + startX + ", y: " + startY)
-    socket.send(JSON.stringify({"x":startX, "y":startY, webSocketAction:actionSendCanvas}));
+    socket.send(JSON.stringify({"x":startX, "y":startY, "color":color, webSocketAction:actionSendCanvas}));
 }
 
 function roamingCoordinates(data) {
