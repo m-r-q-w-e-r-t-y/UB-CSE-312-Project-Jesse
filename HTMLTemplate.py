@@ -1,4 +1,3 @@
-import html
 class HTMLTemplate:
     def __init__(self,filename: str) -> None:
         with open("./public/" + filename, "r") as html_file:
