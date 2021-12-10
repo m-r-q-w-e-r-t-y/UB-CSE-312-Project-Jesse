@@ -45,7 +45,7 @@ function closeForm() {
 }
 
 function playGame() {
-    window.location.href = "canvas.html"
+    window.location.href = "/canvas.html"
 }
 
 function loadChat(userClicked) {
@@ -78,7 +78,7 @@ function openChat(messageEvent) {
         '<textarea placeholder="Type message.." id="msg" required></textarea>\n' +
         '<button type="button" class="btn" onclick="sendMessage(username2)">Send</button>\n' +
         '<button type="button" class="btn cancel" onclick="closeForm()">Close</button>\n' +
-        '<button type="button" class="btn playGame" onclick="playGame()">Play Tic Tac Toe</button>\n' +
+        '<button type="button" class="btn playGame" onclick="playGame()">Canvas</button>\n' +
         '</form></div>'
 
     document.getElementById("messenger").innerHTML=chatContent;
