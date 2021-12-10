@@ -44,6 +44,10 @@ function closeForm() {
     document.getElementById("messenger").style.display = "none";
 }
 
+function playGame() {
+    window.location.href = "canvas.html"
+}
+
 function loadChat(userClicked) {
     let request = {webSocketAction:actionLoadChat, "userClicked":userClicked};
     username2 = userClicked
@@ -74,7 +78,7 @@ function openChat(messageEvent) {
         '<textarea placeholder="Type message.." id="msg" required></textarea>\n' +
         '<button type="button" class="btn" onclick="sendMessage(username2)">Send</button>\n' +
         '<button type="button" class="btn cancel" onclick="closeForm()">Close</button>\n' +
-        '<button type="button" class="btn playGame">Play Tic Tac Toe</button>\n' +
+        '<button type="button" class="btn playGame" onclick="playGame()">Play Tic Tac Toe</button>\n' +
         '</form></div>'
 
     document.getElementById("messenger").innerHTML=chatContent;
