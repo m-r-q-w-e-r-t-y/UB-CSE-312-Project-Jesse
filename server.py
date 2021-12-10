@@ -38,11 +38,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
             # Obtaining currentUser, indicate online else reroute to signup
             userRecord = isAuthenticated(request)
+            if not userRecord:
+                response =  Route.buildResponse(307, {"Location": "/signup"}, b'')
+                return self.request.sendall(response)
+
             currentUser = userRecord["username"]
-            if not currentUser:
-                return Route.buildResponse(307, {"Location": "/signup"}, b'')
-
-
             User.updateLoggedInByUsername(True, currentUser)
             Manager.insertClient(currentUser, self)
 
