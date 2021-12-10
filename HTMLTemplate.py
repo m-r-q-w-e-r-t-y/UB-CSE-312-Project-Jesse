@@ -1,6 +1,6 @@
 class HTMLTemplate:
     def __init__(self,filename: str) -> None:
-        with open("./public/" + filename, "r") as html_file:
+        with open("./private/" + filename, "r") as html_file:
             self.html_file: str = html_file.read()
 
     def insertKeyVal(self,key_vals: dict) -> 'HTMLTemplate':
