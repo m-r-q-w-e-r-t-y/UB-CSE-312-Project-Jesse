@@ -5,8 +5,7 @@ let actionOnlineUser = "ONLINE_USERS";
 
 
 function getOnlineUsers() {
-    let username = document.getElementById("username").innerHTML
-    let request = {webSocketAction:actionOnlineUser, "username": username};
+    let request = {webSocketAction:actionOnlineUser};
     socket.send(JSON.stringify(request));
     socket.onmessage = addOnlineUsers;
 }
@@ -30,9 +29,7 @@ function openForm(contacts) {
     else {
         messengerContent=messengerContent+"<h4 class=\"none-online\" >No users are online!</h4>"
     }
-    // contacts.forEach(user => {
-    //     messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="openChat(this.id)" ><p class="center-user-name">'+user+'</p></div>';
-    // })
+
     messengerContent = messengerContent + '</div>';
 
     document.getElementById("messenger").innerHTML=messengerContent;
