@@ -1,3 +1,3 @@
-from ClientManager import ClientManager
+from client.ClientManager import ClientManager
 
 Manager = ClientManager()

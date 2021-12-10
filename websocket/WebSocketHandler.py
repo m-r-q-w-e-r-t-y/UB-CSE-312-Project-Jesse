@@ -1,4 +1,4 @@
-from WebSocketPacker import WebSocketPacker
+from websocket.WebSocketPacker import WebSocketPacker
 from sockets.Sockets import sockets
 
 
