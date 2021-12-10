@@ -16,10 +16,19 @@
             <button class="dropbtn">Change Profile Picture
                 <i class="pfp-upload"></i>
             </button>
-            <div class="dropdown-content">
-                <a>Upload New PFP</a>
-                <button type="button">Upload</button>
-            </div>
+            <form enctype="multipart/form-data" action="/change-profile-pic" method="post">
+                <div class="dropdown-content">
+                    <label for="profile-picture-input">Choose a profile picture:</label>
+                    <input
+                      type="file"
+                      id="avatar"
+                      name="avatar"
+                      accept="image/jpeg"
+                      required
+                    />
+                    <input type="submit" value="Submit">
+                </div>
+            </form>
         </div>
         <img class="pfp" src="{{profile_pic_path}}" />
     </div><br><br>
