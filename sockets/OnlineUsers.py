@@ -14,4 +14,7 @@ class OnlineUsers(Socket):
         return self.SELF
 
     def getReply(self, username):
-        return User.getLoggedInUsers(username)
+        usernames = User.getLoggedInUsers(username)
+        profilePics = User.getLoggedInPics(username)
+
+        return [usernames, profilePics]
