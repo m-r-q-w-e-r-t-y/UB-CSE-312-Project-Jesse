@@ -23,15 +23,12 @@ class WebSocketHandler:
             if socket.match(self.action):
 
                 if socket.requiresData():
-                    print("requires data")
                     self.data = socket.getReply(self.dataReceived)
-                    print(self.data)
                     self.frame = WebSocketPacker.packFrame(self.data)
                     self.broadcastType = socket.broadcastType()
                     return
 
                 if socket.requiresUsername():
-                    print("requires username")
                     self.data = socket.getReply(self.username)
                     self.frame = WebSocketPacker.packFrame(self.data)
                     self.broadcastType = socket.broadcastType()

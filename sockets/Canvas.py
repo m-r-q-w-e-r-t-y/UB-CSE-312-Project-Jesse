@@ -12,6 +12,7 @@ class Canvas(Socket):
     def broadcastType(self) -> str:
         return self.ALL
 
-    def getReply(self, data):
-        return {'x':data['x'], 'y':data['y']} # add "color": color
+    def getReply(self, data: dict):
+        data.pop("webSocketAction")
+        return data
 

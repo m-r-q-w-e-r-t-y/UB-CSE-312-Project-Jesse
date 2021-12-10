@@ -6,7 +6,7 @@ from routes.Route import Route
 from routes.Routes import routes
 from db_init import User
 from clientManager_init import Manager
-
+import traceback
 
 # Note: Handles TCP connections (request and response)
 from routes.utility_functions import isAuthenticated
@@ -55,8 +55,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     Manager.sendFrame(handler)
 
                     # self.request.sendall(handler.getFrame())
-                except:
-
+                except Exception as e:
+                    traceback.print_exc()
                     # Signing currentUser off
                     if currentUser:
                         User.updateLoggedInByUsername(False, currentUser)
