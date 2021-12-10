@@ -5,14 +5,15 @@ from WebSocketParser import WebSocketParser
 from routes.Route import Route
 from routes.Routes import routes
 from db_init import User
+from db_init import Chat
 from clientManager_init import Manager
-
 
 # Note: Handles TCP connections (request and response)
 from routes.utility_functions import isAuthenticated
 
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
+    currentUser = None
 
     def handle(self):
         # HTTP
@@ -39,32 +40,33 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             # Obtaining currentUser, indicate online else reroute to signup
             userRecord = isAuthenticated(request)
             if not userRecord:
-                response =  Route.buildResponse(307, {"Location": "/signup"}, b'')
+                response = Route.buildResponse(307, {"Location": "/signup"}, b'')
                 return self.request.sendall(response)
 
-            currentUser = userRecord["username"]
-            User.updateLoggedInByUsername(True, currentUser)
-            Manager.insertClient(currentUser, self)
+            self.currentUser = userRecord["username"]
+            User.updateLoggedInByUsername(True, self.currentUser)
+            Manager.insertClient(self.currentUser, self)
+            handler = WebSocketHandler(self.currentUser)
 
             while True:
                 try:
                     requestFrame = self.request.recv(1024)
                     parser = WebSocketParser(bytearray(requestFrame))
                     payload = parser.getPayload()
-                    handler = WebSocketHandler(payload, currentUser)
+                    handler.handleResponse(payload)
                     Manager.sendFrame(handler)
 
                     # self.request.sendall(handler.getFrame())
                 except:
 
                     # Signing currentUser off
-                    if currentUser:
-                        User.updateLoggedInByUsername(False, currentUser)
-                        Manager.insertClient(currentUser, self)
+                    if self.currentUser:
+                        User.updateLoggedInByUsername(False, self.currentUser)
+                        Manager.insertClient(self.currentUser, self)
                     break
             print("------------------------------------------------")
-        
-        return self.request.sendall(Route.buildResponse(404,{"Content-Type":"text/plain"},b'Invalid API call'))
+
+        return self.request.sendall(Route.buildResponse(404, {"Content-Type": "text/plain"}, b'Invalid API call'))
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ import os
 import bcrypt
 from constants import auth_token_salt
 
+
 class UserDatabase:
     connection = None
 
@@ -94,7 +95,7 @@ class UserDatabase:
     def getUserRecordByAuthToken(self, authToken):
         if type(authToken) is str:
             authToken = authToken.encode()
-        hashed_auth_token = bcrypt.hashpw(authToken,auth_token_salt)
+        hashed_auth_token = bcrypt.hashpw(authToken, auth_token_salt)
         cursor = self.connection.cursor()
         sqlQuery = "SELECT * FROM user WHERE authToken = %s"
         sqlValues = (hashed_auth_token,)
@@ -198,10 +199,19 @@ class UserDatabase:
 
     # Retrieve all usernames of logged in users from user table, output excludes the username given in parameter
     def getLoggedInUsers(self, username):
-        records = self.selectAllUser()
-        allUsers = []
+        cursor = self.connection.cursor()
+        sqlQuery = "SELECT * FROM user WHERE username != %s AND loggedIn = %s"
+        sqlValues = (username, 1)
+        cursor.execute(sqlQuery, sqlValues)
+        result = cursor.fetchall()
 
-        for userData in records:
-            if userData["username"] != username and userData["loggedIn"]:
-                allUsers.append(userData["username"])
-        return allUsers
+        if cursor.rowcount > 0:
+            print("Found other online users from user Table!")
+
+            records = []
+            for row in result:
+                records.append(row[1])
+            return records
+
+        print("No other online user records were found from user Table!")
+        return []
