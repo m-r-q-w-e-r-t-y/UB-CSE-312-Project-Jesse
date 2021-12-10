@@ -4,8 +4,6 @@ from db_init import User
 
 class OnlineUsers(Socket):
 
-    data = None
-
     def __init__(self, webSocketAction):
         super().__init__(webSocketAction)
 

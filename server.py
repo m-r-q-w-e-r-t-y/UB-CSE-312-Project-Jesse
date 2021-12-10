@@ -5,8 +5,8 @@ from WebSocketParser import WebSocketParser
 from routes.Route import Route
 from routes.Routes import routes
 from db_init import User
+from db_init import Chat
 from clientManager_init import Manager
-
 
 # Note: Handles TCP connections (request and response)
 from routes.utility_functions import isAuthenticated
@@ -65,8 +65,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         Manager.insertClient(self.currentUser, self)
                     break
             print("------------------------------------------------")
-        
-        return self.request.sendall(Route.buildResponse(404,{"Content-Type":"text/plain"},b'Invalid API call'))
+
+        return self.request.sendall(Route.buildResponse(404, {"Content-Type": "text/plain"}, b'Invalid API call'))
 
 
 if __name__ == "__main__":

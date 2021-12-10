@@ -35,6 +35,12 @@ class WebSocketHandler:
                     self.broadcastType = socket.broadcastType()
                     return
 
+                if socket.requiresBoth():
+                    self.data = socket.getData(self.username, dataReceived)
+                    self.frame = WebSocketPacker.packFrame(self.data)
+                    self.broadcastType = socket.broadcastType()
+                    return
+
                 self.frame = WebSocketPacker.packFrame(socket.getResponse())
                 self.broadcastType = socket.broadcastType()
                 return

@@ -25,7 +25,7 @@ class ClientManager:
 
         if broadcastType == "PAIR":
             data = handler.getData()
-            username2 = data["username2"]
+            username2 = data[0]["client2"]
             self.broadcastPair(username, username2, frame)
 
         if broadcastType == "ALL":
@@ -37,9 +37,12 @@ class ClientManager:
 
     def broadcastPair(self, username: str, username2: str, frame: bytes):
         client = self.clients[username]
-        client2 = self.clients[username2]
         client.request.sendall(frame)
-        client2.request.sendall(frame)
+        try:
+            client2 = self.clients[username2]
+            client2.request.sendall(frame)
+        except:
+            print(username2 + " has logged out")
 
     def broadcastAll(self, frame: bytes):
         for username in self.clients:
