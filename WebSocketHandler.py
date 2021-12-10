@@ -12,13 +12,14 @@ class WebSocketHandler:
     username = None
     data = None
 
-    def __init__(self, dataReceived, username):
-        self.dataReceived = dataReceived
-        self.action = dataReceived[self.websocketActionKey]
-        self.handleResponse()
+    def __init__(self, username):
         self.username = username
 
-    def handleResponse(self):
+    def handleResponse(self, dataReceived):
+
+        self.dataReceived = dataReceived
+        self.action = dataReceived[self.websocketActionKey]
+
         for socket in sockets:
             if socket.match(self.action):
 

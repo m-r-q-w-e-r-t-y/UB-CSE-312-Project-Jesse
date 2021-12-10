@@ -201,24 +201,16 @@ class UserDatabase:
     def getLoggedInUsers(self, username):
         cursor = self.connection.cursor()
         sqlQuery = "SELECT * FROM user WHERE username != %s AND loggedIn = %s"
-        sqlValues = (True, username)
+        sqlValues = (username, 1)
         cursor.execute(sqlQuery, sqlValues)
         result = cursor.fetchall()
 
         if cursor.rowcount > 0:
-            print("Found other online users besides "+username+" from user Table!")
+            print("Found other online users from user Table!")
 
             records = []
             for row in result:
-                userMap = {}
-
-                userMap["id"] = row[0]
-                userMap["username"] = row[1]
-                userMap["password"] = row[2]
-                userMap["profilePicPath"] = row[3]
-                userMap["authToken"] = row[4]
-                userMap["loggedIn"] = row[5]
-                records.append(userMap)
+                records.append(row[1])
             return records
 
         print("No other online user records were found from user Table!")
