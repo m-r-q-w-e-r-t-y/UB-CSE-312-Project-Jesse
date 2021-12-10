@@ -16,19 +16,24 @@ function getOnlineUsers() {
 }
 
 function addOnlineUsers(messageEvent) {
-    let contacts = JSON.parse(messageEvent.data);
-    openForm(contacts);
+    let data = JSON.parse(messageEvent.data);
+    openForm(data);
 }
 
-function openForm(contacts) {
+function openForm(data) {
 
+    let onlineUsers = data[0]
+    let profilePics = data[1]
+    let index = 0
     document.getElementById("messenger").style.display = "block";
     let messengerContent = '<button class="close-messaging-tab" onclick="closeForm()" >Messages</button>' +
         '<div class="user-container">';
 
-    if(contacts.length>0) {
-        contacts.forEach(user => {
-        messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="loadChat(this.id)" ><p class="center-user-name">'+user+'</p></div>';
+    if(onlineUsers.length>0) {
+        onlineUsers.forEach(user => {
+        messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="loadChat(this.id)"><img src="'+profilePics[index]+'"">' +
+            '<p class="center-user-name">'+user+'</p></div>';
+        index+=1
         })
     }
     else {

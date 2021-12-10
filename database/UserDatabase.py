@@ -215,3 +215,22 @@ class UserDatabase:
 
         print("No other online user records were found from user Table!")
         return []
+
+    # Retrieve all profilePicPaths of logged in users from user table, output excludes the username given in parameter
+    def getLoggedInPics(self, username):
+        cursor = self.connection.cursor()
+        sqlQuery = "SELECT * FROM user WHERE username != %s AND loggedIn = %s"
+        sqlValues = (username, 1)
+        cursor.execute(sqlQuery, sqlValues)
+        result = cursor.fetchall()
+
+        if cursor.rowcount > 0:
+            print("Found other online users from user Table!")
+
+            records = []
+            for row in result:
+                records.append(row[3])
+            return records
+
+        print("No other online user records were found from user Table!")
+        return []
