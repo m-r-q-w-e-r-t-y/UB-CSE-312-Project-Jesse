@@ -5,12 +5,13 @@ class HTMLTemplate:
 
     def insertKeyVal(self,key_vals: dict) -> 'HTMLTemplate':
         for key in key_vals:
-            self.html_file = self.html_file.replace(f'{{{{{key}}}}}',key_vals[key])
+            val = HTMLTemplate.escapeHTMLTags(key_vals[key])
+            self.html_file = self.html_file.replace(f'{{{{{key}}}}}',val)
         return self
 
     def getFileBuffer(self) -> bytes:
-        return self.escapeHTMLTags().encode()
+        return self.html_file.encode()
 
-    def escapeHTMLTags(self) -> str:
-        self.html_file = self.html_file.replace("<","&lt;").replace(">","&gt;")
-        return self.html_file
+    @staticmethod
+    def escapeHTMLTags(val: str) -> str:
+        return val.replace("<","&lt;").replace(">","&gt;")
