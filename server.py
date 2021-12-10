@@ -1,11 +1,10 @@
 import socketserver
 from Request import Request
-from WebSocketHandler import WebSocketHandler
-from WebSocketParser import WebSocketParser
+from websocket.WebSocketHandler import WebSocketHandler
+from websocket.WebSocketParser import WebSocketParser
 from routes.Route import Route
 from routes.Routes import routes
 from db_init import User
-from db_init import Chat
 from clientManager_init import Manager
 
 # Note: Handles TCP connections (request and response)

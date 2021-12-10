@@ -1,5 +1,5 @@
 import socketserver
-from WebSocketHandler import WebSocketHandler
+from websocket.WebSocketHandler import WebSocketHandler
 
 
 class ClientManager:
