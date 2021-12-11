@@ -36,8 +36,11 @@ class ClientManager:
             self.broadcastAll(frame)
 
     def broadcastSelf(self, username: str, frame: bytes):
-        client = self.clients[username]
-        client.request.sendall(frame)
+        try:
+            client = self.clients[username]
+            client.request.sendall(frame)
+        except:
+            print("Sending to self client failed")
 
     def broadcastPair(self, username: str, username2: str, frame: bytes):
         client = self.clients[username]
