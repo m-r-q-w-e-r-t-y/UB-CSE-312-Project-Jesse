@@ -15,4 +15,3 @@ class Canvas(Socket):
     def getReply(self, data: dict):
         data.pop("webSocketAction")
         return data
-

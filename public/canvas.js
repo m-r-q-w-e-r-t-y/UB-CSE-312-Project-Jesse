@@ -89,7 +89,6 @@ function roamingCoordinates(event) {
   startY = continuousY;
 }
 
-function clearPage(e) {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  //socket.send("Clear Canvas");
+function clearCanvas() {
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 }

@@ -2,78 +2,109 @@
 const socket = new WebSocket('ws://' + window.location.host + '/websocket');
 
 let actionOnlineUser = "ONLINE_USERS";
+let actionLoadChat = "LOAD_CHAT";
+let actionSendMessage = "SEND_MESSAGE";
+let username2 = ""
+
+socket.onmessage = addMessage;
 
 
 function getOnlineUsers() {
-    let username = document.getElementById("username").innerHTML
-    let request = {webSocketAction:actionOnlineUser, "username": username};
+    let request = {webSocketAction:actionOnlineUser};
     socket.send(JSON.stringify(request));
     socket.onmessage = addOnlineUsers;
 }
 
-function addOnlineUsers(message) {
-    let contacts = JSON.parse(message.data);
-    openForm(contacts);
+function addOnlineUsers(messageEvent) {
+    let data = JSON.parse(messageEvent.data);
+    openForm(data);
 }
 
-function openForm(contacts) {
+function openForm(data) {
 
+    let onlineUsers = data[0]
+    let profilePics = data[1]
+    let index = 0
     document.getElementById("messenger").style.display = "block";
     let messengerContent = '<button class="close-messaging-tab" onclick="closeForm()" >Messages</button>' +
         '<div class="user-container">';
 
-    if(contacts.length>0) {
-        contacts.forEach(user => {
-        messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="openChat(this.id)" ><p class="center-user-name">'+user+'</p></div>';
+    if(onlineUsers.length>0) {
+        onlineUsers.forEach(user => {
+        messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="loadChat(this.id)"><img src="'+profilePics[index]+'"">' +
+            '<p class="center-user-name">'+user+'</p></div>';
+        index+=1
         })
     }
     else {
         messengerContent=messengerContent+"<h4 class=\"none-online\" >No users are online!</h4>"
     }
-    // contacts.forEach(user => {
-    //     messengerContent=messengerContent+'<div class="user-tab" id="'+user+'" onclick="openChat(this.id)" ><p class="center-user-name">'+user+'</p></div>';
-    // })
-    messengerContent = messengerContent + '</div>';
 
+    messengerContent = messengerContent + '</div>';
     document.getElementById("messenger").innerHTML=messengerContent;
+    socket.onmessage = addMessage;
 }
 
 function closeForm() {
     document.getElementById("messenger").style.display = "none";
 }
 
-function openChat(user) {
+function loadChat(userClicked) {
+    let request = {webSocketAction:actionLoadChat, "userClicked":userClicked};
+    username2 = userClicked
+    socket.send(JSON.stringify(request));
+    socket.onmessage = openChat;
+}
 
-    // @TODO Ajax call should be made to retrieve the conversation between Logged in account user and the user passed via argument
-    let messageLog = [
-        {'User': 'Hey!'},
-        {'User2': 'Hey, whats up'},
-        {'User': 'Want to play tic tac toe? Bet you cant beat me!'},
-        {'User2': 'Sure, lets go!'},
-        {'User': "Sending invite"},
-        {'User2': "GG"},
-        {'User': "That was beginners luck! Run it back!"},
-        {'User2': "If you say, Im down"},]
+function openChat(messageEvent) {
+
+    let messageLog = JSON.parse(messageEvent.data);
+    let user = username2
 
     let chatContent = '<button class="close-messaging-tab" onclick="openForm()" >'+user+'</button>\n' +
         '<div class="chat-container">\n' +
         '<form >\n' +
-        '<div class="message-window">'
+        '<div class="message-window" id="message-panel">'
 
+    if (messageLog.length>0){
 
-    for (const dialog of messageLog) {
+        for (const dialog of messageLog) {
             for (const [userName, message] of Object.entries(dialog)) {
-        chatContent=chatContent+'<p><b>'+userName+':</b> '+message+'</p>'
+                chatContent=chatContent+'<p><b>'+userName+':</b> '+message+'</p>'
+            }
         }
     }
 
-    //TODO Need to add post a method that will send the typed to the database and update the chat
     chatContent = chatContent+'</div>\n' +
         '<textarea placeholder="Type message.." id="msg" required></textarea>\n' +
-        '<button type="button" class="btn">Send</button>\n' +
+        '<button type="button" class="btn" onclick="sendMessage(username2)">Send</button>\n' +
         '<button type="button" class="btn cancel" onclick="closeForm()">Close</button>\n' +
         '<button type="button" class="btn playGame">Play Tic Tac Toe</button>\n' +
         '</form></div>'
 
     document.getElementById("messenger").innerHTML=chatContent;
+    socket.onmessage = addMessage;
+}
+
+function sendMessage(sendingTo) {
+    let text = document.getElementById("msg").value
+    let request = {webSocketAction:actionSendMessage, "sendingTo":sendingTo, "message":text};
+    socket.send(JSON.stringify(request));
+    socket.onmessage = addMessage;
+}
+
+function addMessage(messageEvent) {
+
+    let newMessage = JSON.parse(messageEvent.data);
+    newMessage.shift()
+
+    let chatContent = document.getElementById("message-panel").innerHTML
+
+    for (const dialog of newMessage) {
+        for (const [userName, message] of Object.entries(dialog)) {
+            chatContent=chatContent+'<p><b>'+userName+':</b> '+message+'</p>'
+        }
+    }
+
+    document.getElementById("message-panel").innerHTML=chatContent;
 }

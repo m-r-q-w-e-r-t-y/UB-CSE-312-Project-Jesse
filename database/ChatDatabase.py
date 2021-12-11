@@ -35,18 +35,21 @@ class ChatDatabase:
 
     # Used to insert chat record inside chat Table
     def initializeChatRecord(self, username, username2):
-        sortedName = [username, username2]
-        sortedName.sort()
-        user1Id = self.userDb.getIdByUsername(sortedName[0])
-        user2Id = self.userDb.getIdByUsername(sortedName[1])
-        conversation = json.dumps([])
+        try:
+            sortedName = [username, username2]
+            sortedName.sort()
+            user1Id = self.userDb.getIdByUsername(sortedName[0])
+            user2Id = self.userDb.getIdByUsername(sortedName[1])
+            conversation = json.dumps([])
 
-        cursor = self.connection.cursor()
-        sqlQuery = "INSERT INTO chat (user1, user2, user1Id, user2Id, conversation) VALUES (%s, %s, %s, %s, %s)"
-        sqlValues = (sortedName[0], sortedName[1], user1Id, user2Id, conversation)
-        cursor.execute(sqlQuery, sqlValues)
-        self.connection.commit()
-        print("Successfully inserted user into user Table!")
+            cursor = self.connection.cursor()
+            sqlQuery = "INSERT INTO chat (user1, user2, user1Id, user2Id, conversation) VALUES (%s, %s, %s, %s, %s)"
+            sqlValues = (sortedName[0], sortedName[1], user1Id, user2Id, conversation)
+            cursor.execute(sqlQuery, sqlValues)
+            self.connection.commit()
+            print("Successfully initialize chat record for " + sortedName[0] + " and " + sortedName[1] + " into user Table!")
+        except:
+            print("Unable to initialize chat record")
 
     def selectAllChatRecords(self):
         cursor = self.connection.cursor()
@@ -82,7 +85,8 @@ class ChatDatabase:
         result = cursor.fetchall()
 
         if cursor.rowcount > 0:
-            print("Successfully selected chat record for users:" + sortedName[0] + "and " + sortedName[1] + ", from chat Table!")
+            print("Successfully selected chat record for users:" + sortedName[0] + "and " + sortedName[
+                1] + ", from chat Table!")
             row = result[0]
             chatMap = {}
 
@@ -101,7 +105,7 @@ class ChatDatabase:
         if bool(chatRecord):
             return chatRecord["conversation"]
         else:
-            return None
+            return {}
 
     def insertMessagesByNames(self, senderUsername, message, receiverUsername):
 
@@ -111,7 +115,7 @@ class ChatDatabase:
             self.initializeChatRecord(senderUsername, receiverUsername)
 
         updateConversation = self.getConversationByNames(senderUsername, receiverUsername)
-        updateConversation.append({"sentFrom": senderUsername, "message": message})
+        updateConversation.append({senderUsername: message})
         updateConversation = json.dumps(updateConversation)
 
         sortedName = [senderUsername, receiverUsername]
@@ -122,4 +126,5 @@ class ChatDatabase:
         sqlValues = (updateConversation, sortedName[0], sortedName[1])
         cursor.execute(sqlQuery, sqlValues)
         self.connection.commit()
-        print("Successfully updated conversation for users:" + sortedName[0] + "and " + sortedName[1] + ", from chat Table!")
+        print("Successfully updated conversation for users: " + sortedName[0] + " and " + sortedName[
+            1] + ", from chat Table!")

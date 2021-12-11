@@ -21,6 +21,11 @@ class Socket:
         return False
 
     @staticmethod
+    def requiresBoth() -> bool:
+        # Define in child class
+        return False
+
+    @staticmethod
     def broadcastType() -> str:
         # Define in child class
 
@@ -34,6 +39,12 @@ class Socket:
         # Define in child class
         pass
 
-    def getReply(self, data):
+    @staticmethod
+    def getReply(data):
+        # Define in child class
+        pass
+
+    @staticmethod
+    def getData(username, data):
         # Define in child class
         pass

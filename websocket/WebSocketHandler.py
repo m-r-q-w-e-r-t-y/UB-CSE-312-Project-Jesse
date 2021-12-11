@@ -1,4 +1,4 @@
-from WebSocketPacker import WebSocketPacker
+from websocket.WebSocketPacker import WebSocketPacker
 from sockets.Sockets import sockets
 
 
@@ -12,13 +12,14 @@ class WebSocketHandler:
     username = None
     data = None
 
-    def __init__(self, dataReceived, username):
-        self.dataReceived = dataReceived
-        self.action = dataReceived[self.websocketActionKey]
-        self.handleResponse()
+    def __init__(self, username):
         self.username = username
 
-    def handleResponse(self):
+    def handleResponse(self, dataReceived):
+
+        self.dataReceived = dataReceived
+        self.action = dataReceived[self.websocketActionKey]
+
         for socket in sockets:
             if socket.match(self.action):
 
@@ -30,6 +31,12 @@ class WebSocketHandler:
 
                 if socket.requiresUsername():
                     self.data = socket.getReply(self.username)
+                    self.frame = WebSocketPacker.packFrame(self.data)
+                    self.broadcastType = socket.broadcastType()
+                    return
+
+                if socket.requiresBoth():
+                    self.data = socket.getData(self.username, dataReceived)
                     self.frame = WebSocketPacker.packFrame(self.data)
                     self.broadcastType = socket.broadcastType()
                     return

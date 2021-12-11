@@ -1,18 +1,18 @@
 import socketserver
 from Request import Request
-from WebSocketHandler import WebSocketHandler
-from WebSocketParser import WebSocketParser
+from websocket.WebSocketHandler import WebSocketHandler
+from websocket.WebSocketParser import WebSocketParser
 from routes.Route import Route
 from routes.Routes import routes
 from db_init import User
 from clientManager_init import Manager
-import traceback
 
 # Note: Handles TCP connections (request and response)
 from routes.utility_functions import isAuthenticated
 
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
+    currentUser = None
 
     def handle(self):
         data = self.request.recv(1024)
@@ -64,7 +64,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             Manager.sendFrame(handler)
                 else:
                     return self.request.sendall(response)
-
         return self.request.sendall(Route.buildResponse(404,{"Content-Type":"text/plain"},b'Invalid API call'))
 
 

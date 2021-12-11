@@ -379,6 +379,20 @@ body {
     border-radius: 8px;
     text-align: center;
   }
+  .user-tab img {
+    display: inline;
+    width: 35px;
+    height: 35px;
+    float: left;
+    margin-top: 4px;
+    margin-left: 3px;
+    border: 2px solid black;
+    border-radius: 50%;
+  }
+
+  .user-tab p{
+    padding-top: 10px;
+  }
 
   .none-online {
     color: gray;
