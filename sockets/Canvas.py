@@ -12,6 +12,6 @@ class Canvas(Socket):
     def broadcastType(self) -> str:
         return self.ALL
 
-    def getReply(self, data):
+    def getReply(self, data: dict):
         data.pop("webSocketAction")
         return data
