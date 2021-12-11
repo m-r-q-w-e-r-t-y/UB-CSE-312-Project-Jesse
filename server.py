@@ -5,6 +5,7 @@ from websocket.WebSocketParser import WebSocketParser
 from routes.Route import Route
 from routes.Routes import routes
 from db_init import User
+from db_init import Chat
 from clientManager_init import Manager
 
 # Note: Handles TCP connections (request and response)
@@ -81,8 +82,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             Manager.removeClient(username)
                             return
                         else:
-                            # if all checks pass, send the websocket frames to other connected users
-                            handler = WebSocketHandler(payload, username)
+
+                            handler = WebSocketHandler(username)
+                            handler.handleResponse(payload)
                             Manager.sendFrame(handler)
                 else:
                     # If not a websocket handshake, serve the standard HTTP response
