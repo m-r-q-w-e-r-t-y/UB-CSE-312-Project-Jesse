@@ -1,6 +1,8 @@
 import json
 
-
+"""
+Helps get payload given frame
+"""
 class WebSocketParser:
     frame = None
     payload = None
