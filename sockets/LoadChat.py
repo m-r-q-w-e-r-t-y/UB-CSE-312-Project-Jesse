@@ -1,7 +1,9 @@
 from sockets.Socket import Socket
 from db_init import Chat
 
-
+"""
+Handles websockets that requests a list of message mapping between username and userClicked
+"""
 class LoadChat(Socket):
 
     def __init__(self, webSocketAction):

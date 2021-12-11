@@ -53,18 +53,26 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     # Listen for websocket frames until client disconnects
                     while True:
                         data = self.request.recv(1024)
+
+                        # If no data is received log out and remove user
                         if not data:
                             print("No data received")
                             User.updateLoggedInByUsername(False, username)
                             Manager.removeClient(username)
                             return
+
+                        # Parsing frame
                         parser = WebSocketParser(bytearray(data))
                         opcode = parser.getOpcode()
+
+                        # Opcode 8 indicates closing connection, log out and remove user
                         if opcode == 8:
                             print("Opcode 8 received")
                             User.updateLoggedInByUsername(False, username)
                             Manager.removeClient(username)
                             return
+
+                        # Attempting to get payload
                         try:
                             payload = parser.getPayload()
                         except:

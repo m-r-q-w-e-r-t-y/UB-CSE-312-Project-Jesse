@@ -1,3 +1,4 @@
+
 class Socket:
     webSocketAction = None
     SELF = "SELF"
