@@ -79,7 +79,7 @@ function openChat(messageEvent) {
         '<textarea placeholder="Type message.." id="msg" required></textarea>\n' +
         '<button type="button" class="btn" onclick="sendMessage(username2)">Send</button>\n' +
         '<button type="button" class="btn cancel" onclick="closeForm()">Close</button>\n' +
-        '<button type="button" class="btn playGame">Play Tic Tac Toe</button>\n' +
+        '<a href="/canvas">Play Canvas</a>\n' +
         '</form></div>'
 
     document.getElementById("messenger").innerHTML=chatContent;

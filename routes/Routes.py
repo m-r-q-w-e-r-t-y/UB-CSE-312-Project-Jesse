@@ -7,6 +7,7 @@ from routes.AuthTest import AuthTest as AuthTestRoute
 from routes.Lobby import Lobby as LobbyRoute
 from routes.Logout import Logout as LogoutRoute
 from routes.ChangeProfilePic import ChangeProfilePic as ChangeProfilePicRoute
+from routes.Canvas import Canvas as CanvasRoute
 
 """
 List of all Route instances handled by the server
@@ -18,5 +19,6 @@ routes: List[Route] = [
     WebSocketRoute("/websocket", ["GET"]),
     AuthTestRoute("/test/auth",["GET"]),
     LogoutRoute("/logout",["GET"]),
-    ChangeProfilePicRoute("/change-profile-pic",["POST"])
+    ChangeProfilePicRoute("/change-profile-pic",["POST"]),
+    CanvasRoute("/canvas",["GET"])
     ]
