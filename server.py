@@ -15,8 +15,10 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     currentUser = None
 
     def handle(self):
+        data = self.request.recv(1024)
+
         # HTTP
-        request = Request(self)
+        request = Request(data,self)
         print(f'{request.req_type} {request.path}')
 
         if Route.fileRequested(request):
@@ -27,45 +29,42 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             if route.match(request):
                 response = route.getResponse(request)
 
-                if "/websocket" == request.path:
+                if "/websocket" == request.path and "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
+                    user = isAuthenticated(request)
+                    if not user:
+                        return self.request.sendall(Route.buildResponse(401,{"Content-Type":"text/plain"},b'Unauthorized'))
+                    username = user["username"]
+                    User.updateLoggedInByUsername(True, username)
+                    Manager.insertClient(username,self,self.client_address)
                     self.request.sendall(response)
+
+                    while True:
+                        data = self.request.recv(1024)
+                        if not data:
+                            print("No data received")
+                            User.updateLoggedInByUsername(False, username)
+                            Manager.removeClient(username)
+                            return
+                        parser = WebSocketParser(bytearray(data))
+                        opcode = parser.getOpcode()
+                        if opcode == 8:
+                            print("Opcode 8 received")
+                            User.updateLoggedInByUsername(False, username)
+                            Manager.removeClient(username)
+                            return
+                        try:
+                            payload = parser.getPayload()
+                        except:
+                            print("Payload decoding fail")
+                            User.updateLoggedInByUsername(False, username)
+                            Manager.removeClient(username)
+                            return
+                        else:
+                            handler = WebSocketHandler(payload, username)
+                            Manager.sendFrame(handler)
                 else:
                     return self.request.sendall(response)
-
-        # Handles Websocket
-        if "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
-            print("---------------- WebSocket Zone ----------------")
-
-            # Obtaining currentUser, indicate online else reroute to signup
-            userRecord = isAuthenticated(request)
-            if not userRecord:
-                response = Route.buildResponse(307, {"Location": "/signup"}, b'')
-                return self.request.sendall(response)
-
-            self.currentUser = userRecord["username"]
-            User.updateLoggedInByUsername(True, self.currentUser)
-            Manager.insertClient(self.currentUser, self)
-            handler = WebSocketHandler(self.currentUser)
-
-            while True:
-                try:
-                    requestFrame = self.request.recv(1024)
-                    parser = WebSocketParser(bytearray(requestFrame))
-                    payload = parser.getPayload()
-                    handler.handleResponse(payload)
-                    Manager.sendFrame(handler)
-
-                    # self.request.sendall(handler.getFrame())
-                except:
-
-                    # Signing currentUser off
-                    if self.currentUser:
-                        User.updateLoggedInByUsername(False, self.currentUser)
-                        Manager.insertClient(self.currentUser, self)
-                    break
-            print("------------------------------------------------")
-
-        return self.request.sendall(Route.buildResponse(404, {"Content-Type": "text/plain"}, b'Invalid API call'))
+        return self.request.sendall(Route.buildResponse(404,{"Content-Type":"text/plain"},b'Invalid API call'))
 
 
 if __name__ == "__main__":

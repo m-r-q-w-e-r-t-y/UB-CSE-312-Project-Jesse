@@ -74,22 +74,21 @@ function roamingCoordinates(event) {
   const continuousX = event.clientX - x;
   const continuousY = event.clientY - y;
 
-  socket.send(
-    JSON.stringify({
-      x: startX,
-      y: startY,
-      endX: continuousX,
-      endY: continuousY,
-      color: color,
-      webSocketAction: actionSendCanvas,
-    })
-  );
+  const request_frame = JSON.stringify({
+    x: Math.floor(startX),
+    y: Math.floor(startY),
+    endX: Math.floor(continuousX),
+    endY: Math.floor(continuousY),
+    color: color,
+    webSocketAction: actionSendCanvas,
+  });
+
+  socket.send(request_frame);
 
   startX = continuousX;
   startY = continuousY;
 }
 
 function clearCanvas() {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 }

@@ -8,9 +8,11 @@
     <link rel="stylesheet" type="text/css" href="main.css"/>
   </head>
   <body>
+
+    <div class="notifications" id="notify"></div>
     <div class="navbar">
         <a class="left-align">Lobby</a>
-        <div class="greeting-header" style="color: white">Welcome {{username}}</div>
+        <div class="greeting-header" style="color: white" id="username">Welcome {{username}}</div>
         <a class="right-align" href="http://localhost:8080/logout">Log out</a>
         <div class="dropdown">
             <button class="dropbtn">Change Profile Picture
