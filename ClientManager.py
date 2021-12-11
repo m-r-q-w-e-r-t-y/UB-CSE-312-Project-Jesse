@@ -3,17 +3,21 @@ from WebSocketHandler import WebSocketHandler
 
 
 class ClientManager:
-    clients: None
+    clients: dict
+    clientAddresses: dict
 
     def __init__(self):
         print("Client Manager was created")
         self.clients = {}
+        self.clientAddresses = {}
 
-    def insertClient(self, username: str, server: socketserver.BaseRequestHandler):
+    def insertClient(self, username: str, server: socketserver.BaseRequestHandler,client_address):
         self.clients[username] = server
+        self.clientAddresses[client_address] = username
 
-    def removeClient(self, username: str):
+    def removeClient(self, username):
         self.clients.pop(username)
+        self.clientAddresses = {key:val for key, val in self.clientAddresses.items() if val != username}
 
     def sendFrame(self, handler: WebSocketHandler):
         frame = handler.getFrame()
@@ -43,5 +47,8 @@ class ClientManager:
 
     def broadcastAll(self, frame: bytes):
         for username in self.clients:
-            client = self.clients[username]
-            client.request.sendall(frame)
+            try:
+                client = self.clients[username]
+                client.request.sendall(frame)
+            except Exception as e:
+                print(f'Failed to broadcast to user: {username} {e}')

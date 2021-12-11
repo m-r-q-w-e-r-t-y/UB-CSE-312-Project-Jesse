@@ -7,9 +7,8 @@ class Request:
     body: bytes = None
     form: dict = {}
 
-    def __init__(self, server: socketserver.BaseRequestHandler):
-        data = server.request.recv(1024)
-
+    def __init__(self, data: bytes, server: socketserver.BaseRequestHandler):
+        
         self.req_type, self.path, self.headers = Request.parseHeaders(data)
 
         if "Content-Length" in self.headers and "Content-Type" in self.headers and "multipart/form-data" in self.headers["Content-Type"]:
