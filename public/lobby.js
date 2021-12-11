@@ -95,16 +95,37 @@ function sendMessage(sendingTo) {
 
 function addMessage(messageEvent) {
 
-    let newMessage = JSON.parse(messageEvent.data);
-    newMessage.shift()
+    let messageDetails = JSON.parse(messageEvent.data);
+    let notifyingUser = messageDetails[0].client2;
+    messageDetails.shift()
 
-    let chatContent = document.getElementById("message-panel").innerHTML
-
-    for (const dialog of newMessage) {
-        for (const [userName, message] of Object.entries(dialog)) {
-            chatContent=chatContent+'<p><b>'+userName+':</b> '+message+'</p>'
+    if(document.getElementById("message-panel") != null) {
+        let chatContent = document.getElementById("message-panel").innerHTML
+        for (const dialog of messageDetails) {
+            for (const [userName, message] of Object.entries(dialog)) {
+                chatContent=chatContent+'<p><b>'+userName+':</b> '+message+'</p>'
+            }
         }
+        document.getElementById("message-panel").innerHTML=chatContent;
     }
 
-    document.getElementById("message-panel").innerHTML=chatContent;
+    let userValue = document.getElementById("username").innerText;
+    let username = userValue.substring(8);
+
+    if(username === notifyingUser) {
+        messageMap = messageDetails[0]
+        for(name in messageMap) {
+            showNotifications(name)
+        }
+    }
+}
+
+function disableNotifications(){
+    document.getElementById("notify").style.visibility = "hidden";
+}
+
+function showNotifications(sender){
+    document.getElementById("notify").innerHTML="New Message from: "+sender;
+    document.getElementById("notify").style.visibility = "visible";
+    window.setTimeout(disableNotifications, 3000);
 }

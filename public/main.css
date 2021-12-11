@@ -514,3 +514,18 @@ body {
 #reset {
     background-color: #FF3860;
 }
+
+.notifications {
+  visibility: hidden;
+  width: fit-content;
+  height: 25px;
+  background-color: red;
+  position: absolute;
+  right:0px;
+  top:50px;
+  border-radius:10px;
+  text-align: center;
+  padding-top:8px;
+  padding-left:10px;
+  padding-right:10px;
+}
