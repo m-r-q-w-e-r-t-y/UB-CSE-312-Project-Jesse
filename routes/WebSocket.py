@@ -6,6 +6,9 @@ from Request import Request
 
 
 class WebSocket(Route):
+    """
+    GET /websocket handles websocket handshakes
+    """
     def __init__(self, path, methods) -> None:
         super().__init__(path, methods)
 

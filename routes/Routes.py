@@ -8,6 +8,9 @@ from routes.Lobby import Lobby as LobbyRoute
 from routes.Logout import Logout as LogoutRoute
 from routes.ChangeProfilePic import ChangeProfilePic as ChangeProfilePicRoute
 
+"""
+List of all Route instances handled by the server
+"""
 routes: List[Route] = [
     LobbyRoute("/",["GET"]),
     SignupRoute("/signup",["POST", "GET"]), 
