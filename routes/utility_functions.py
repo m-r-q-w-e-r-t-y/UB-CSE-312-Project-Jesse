@@ -3,6 +3,7 @@ import string
 from db_init import User
 from Request import Request
 
+# Generates random character string with lowercase, uppercase alphabets and digits
 def genAlphanumeric(len: int=16):
     chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
     token = [secrets.choice(chars) for _ in range(len)]
@@ -22,6 +23,7 @@ def isAuthenticated(req: Request):
         return None
     return user
 
+# Standard cookie parser implementation
 def cookieParser(req: Request):
     cookies = {}
     if "Cookie" not in req.headers:

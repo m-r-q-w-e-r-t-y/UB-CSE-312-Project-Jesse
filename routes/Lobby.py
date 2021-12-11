@@ -4,6 +4,10 @@ from routes.utility_functions import isAuthenticated
 from HTMLTemplate import HTMLTemplate
 
 class Lobby(Route):
+    """
+    Route to handle GET /lobby. Performs authentication and if user is authenticated shows lobby.html with username and profile pic 
+    rendered in the HTML via custom templating
+    """
     def __init__(self, path, methods) -> None:
         super().__init__(path, methods)
     def getResponse(self, request: Request):

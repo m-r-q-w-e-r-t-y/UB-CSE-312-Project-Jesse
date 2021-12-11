@@ -8,6 +8,10 @@ class Route:
         self.methods: List[str] = methods
 
     def match(self,request: Request) -> bool:
+        """
+        Returns true if the both the request type is in the Route instance's methods and path matches with the Route 
+        instance's path
+        """
         return self.path == request.path and request.req_type in self.methods
 
     def getResponse(self,request: Request):
@@ -16,6 +20,9 @@ class Route:
 
     @staticmethod
     def buildResponse(http_code: int,headers: dict,body: bytes) -> bytes:
+        """
+        Builds a standard http response in bytes with given arguments
+        """
 
         if not body:
             body = b''
@@ -42,6 +49,9 @@ class Route:
 
     @staticmethod
     def fileRequested(request: Request) -> bool:
+        """
+        Returns true if client requested a file
+        """
         if request.req_type != "GET": 
             return False
         file_type = request.path.split(".",1)[-1]
@@ -49,6 +59,9 @@ class Route:
     
     @staticmethod
     def getFileDynamically(request: Request) -> bytes:
+        """
+        Returns file (if exists) requested from "public" folder
+        """
         filename = request.path.split("/")[-1]
         filetype = filename.split(".")[-1]
         file_folder = "./public/" if filetype != "jpg" else "./uploads/"

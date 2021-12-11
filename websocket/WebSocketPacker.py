@@ -1,8 +1,11 @@
 import json
 
-
+"""
+Helps pack frames given payload
+"""
 class WebSocketPacker:
 
+    # Given payload packs frame
     @staticmethod
     def packFrame(responseData):
         payload = bytearray(json.dumps(responseData).encode())

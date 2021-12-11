@@ -1,7 +1,9 @@
 from sockets.Socket import Socket
 from db_init import User
 
-
+"""
+Handles websockets that requests a list of online users, excluding the given username
+"""
 class OnlineUsers(Socket):
 
     def __init__(self, webSocketAction):

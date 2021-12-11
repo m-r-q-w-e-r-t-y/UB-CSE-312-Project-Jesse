@@ -1,7 +1,9 @@
 from sockets.Socket import Socket
 from db_init import Chat
 
-
+"""
+Handles websockets that send a messageMap, this gets inserted into the SQL
+"""
 class InsertMessage(Socket):
 
     def __init__(self, webSocketAction):

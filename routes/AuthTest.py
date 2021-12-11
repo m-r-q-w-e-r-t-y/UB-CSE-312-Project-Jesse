@@ -3,6 +3,9 @@ from Request import Request
 from routes.utility_functions import isAuthenticated
 
 class AuthTest(Route):
+    """
+    Route purely for dev testing purposes. States whether user is authenticated or not
+    """
     def __init__(self, path, methods) -> None:
         super().__init__(path, methods)
     def getResponse(self, request: Request):

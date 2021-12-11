@@ -6,6 +6,11 @@ from routes.utility_functions import genAlphanumeric
 import os
 
 class Signup(Route):
+    """
+    Handles two routes,
+    GET /signup sends signup.html
+    POST /signup creates user account if all checks pass
+    """
     def __init__(self, path, methods) -> None:
         super().__init__(path, methods)
 

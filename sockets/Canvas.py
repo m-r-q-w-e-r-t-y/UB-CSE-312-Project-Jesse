@@ -1,6 +1,8 @@
 from sockets.Socket import Socket
 
-
+"""
+Handles websockets that sends a pointMap of a canvas location, this gets broadcast to all users
+"""
 class Canvas(Socket):
 
     def __init__(self, webSocketAction):

@@ -3,6 +3,9 @@ from Request import Request
 from routes.utility_functions import isAuthenticated
 
 class ChangeProfilePic(Route):
+    """
+    Route to handle change profile picture post requests
+    """
     def __init__(self, path, methods) -> None:
         super().__init__(path, methods)
 

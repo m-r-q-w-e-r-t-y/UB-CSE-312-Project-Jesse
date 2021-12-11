@@ -6,6 +6,11 @@ from routes.utility_functions import genAlphanumeric
 from constants import auth_token_salt
 
 class Login(Route):
+    """
+    Handles two routes,
+    GET /login displays login.html
+    POST /login logs in user and sets authToken if provided credentials were valid
+    """
     def __init__(self, path, methods) -> None:
         super().__init__(path, methods)
 
