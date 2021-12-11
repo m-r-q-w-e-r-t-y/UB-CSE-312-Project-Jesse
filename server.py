@@ -21,23 +21,36 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         request = Request(data,self)
         print(f'{request.req_type} {request.path}')
 
+        # If the client is requesting a file by sending a url ending with a filetype such as /signup.html, /main.css
         if Route.fileRequested(request):
+
+            # Serve the file dynamically from the "public" folder
             response = Route.getFileDynamically(request)
             return self.request.sendall(response)
 
         for route in routes:
+
+            # If the request type and path matches with a route
             if route.match(request):
+
+                # Get the response associated with the matching route
                 response = route.getResponse(request)
 
+                # If the request is for a websocket handshake
                 if "/websocket" == request.path and "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
+
+                    # Check if user is authenticated or not, if not send 401
                     user = isAuthenticated(request)
                     if not user:
                         return self.request.sendall(Route.buildResponse(401,{"Content-Type":"text/plain"},b'Unauthorized'))
                     username = user["username"]
                     User.updateLoggedInByUsername(True, username)
                     Manager.insertClient(username,self,self.client_address)
+
+                    # If authenticated, send 101 response
                     self.request.sendall(response)
 
+                    # Listen for websocket frames until client disconnects
                     while True:
                         data = self.request.recv(1024)
                         if not data:
@@ -60,10 +73,14 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             Manager.removeClient(username)
                             return
                         else:
+                            # if all checks pass, send the websocket frames to other connected users
                             handler = WebSocketHandler(payload, username)
                             Manager.sendFrame(handler)
                 else:
+                    # If not a websocket handshake, serve the standard HTTP response
                     return self.request.sendall(response)
+        
+        # If not routes match, return 404 response
         return self.request.sendall(Route.buildResponse(404,{"Content-Type":"text/plain"},b'Invalid API call'))
 
 
