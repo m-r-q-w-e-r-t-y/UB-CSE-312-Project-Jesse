@@ -61,7 +61,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     # Signing currentUser off
                     if self.currentUser:
                         User.updateLoggedInByUsername(False, self.currentUser)
-                        Manager.insertClient(self.currentUser, self)
+                        Manager.removeClient(self.currentUser)
                     break
             print("------------------------------------------------")
 
