@@ -9,11 +9,15 @@ class Request:
 
     def __init__(self, data: bytes, server: socketserver.BaseRequestHandler):
         
+        # From the data in bytes, parse the headers and retrieve the request type, url and headers dictionary
         self.req_type, self.path, self.headers = Request.parseHeaders(data)
 
+        # Check if the request is of multipart/form-data type
         if "Content-Length" in self.headers and "Content-Type" in self.headers and "multipart/form-data" in self.headers["Content-Type"]:
             bytes_needed = int(self.headers["Content-Length"])
             bytes_received = len(data) - len(data.split(b'\r\n\r\n',1)[0])
+
+            # Accumulate buffer until we have all the bytes we need
             while bytes_received < bytes_needed:
                 buffer_chunk = server.request.recv(1024)
                 if not buffer_chunk:
@@ -23,6 +27,8 @@ class Request:
 
             # In case the headers came in chunks, re set the headers
             self.headers = Request.parseHeaders(data)[2]
+
+            # Parse the multipart/form-data and store in dictionary
             self.form = Request.parseMultipartForm(data)
 
         self.body = data.split(b'\r\n\r\n',1)[1]
