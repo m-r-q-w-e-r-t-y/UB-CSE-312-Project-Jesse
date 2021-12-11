@@ -1,3 +1,7 @@
+/**
+ * Ajax POST request for /signup
+ * Display response from the backend
+ */
 function submitSignupForm() {
   const username = getValueById("username-input");
   const password = getValueById("password-input");

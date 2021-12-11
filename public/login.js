@@ -1,3 +1,8 @@
+/**
+ * Ajax POST request
+ * On 200 response, display success message and redirect to /
+ * On errors, display the error messages in red
+ */
 function submitLoginForm() {
   const username = getValueById("username-input");
   const password = getValueById("password-input");
