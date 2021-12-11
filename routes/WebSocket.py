@@ -3,7 +3,6 @@ import hashlib
 
 from routes.Route import Route
 from Request import Request
-from routes.utility_functions import isAuthenticated
 
 
 class WebSocket(Route):
@@ -13,9 +12,6 @@ class WebSocket(Route):
     def getResponse(self, request: Request) -> bytes:
 
         if request.req_type == "GET":
-            user = isAuthenticated(request)
-            if not user:
-                return Route.buildResponse(401, {"Content-Type": "text/plain"},b'Unauthenticated')
             webSocketAcceptKey = self.computeAcceptKey(request.headers['Sec-WebSocket-Key'])
             return Route.buildResponse(101, {"Connection": "upgrade",
                                              "Upgrade": "websocket", "Sec-WebSocket-Accept": webSocketAcceptKey}, b'')

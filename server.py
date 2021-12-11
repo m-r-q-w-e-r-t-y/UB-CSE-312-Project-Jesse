@@ -32,7 +32,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 if "/websocket" == request.path and "Upgrade" in request.headers and request.headers["Upgrade"] == "websocket":
                     user = isAuthenticated(request)
                     if not user:
-                        return Route.buildResponse(401,{"Content-Type":"text/plain"},b'Unauthorized')
+                        return self.request.sendall(Route.buildResponse(401,{"Content-Type":"text/plain"},b'Unauthorized'))
                     username = user["username"]
                     User.updateLoggedInByUsername(True, username)
                     Manager.insertClient(username,self,self.client_address)
