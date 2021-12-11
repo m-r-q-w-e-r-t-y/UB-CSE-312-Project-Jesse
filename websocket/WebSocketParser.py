@@ -13,6 +13,7 @@ class WebSocketParser:
         self.frame = frame
         self.extractPayload()
 
+    # Given frame splits the frame and extracts payload len, opcode, masking key, and payload
     def extractPayload(self):
         self.payloadLength = self.frame[1] - 128
         self.maskingKey = self.frame[2:6]
